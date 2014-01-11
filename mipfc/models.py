@@ -30,6 +30,7 @@ class Trimestre(models.Model):
     tcuotaivasoportado = models.DecimalField(max_digits = 9, decimal_places=2)
     soportadodeducible = models.DecimalField(max_digits = 9, decimal_places=2)
     ivaingresar = models.DecimalField(max_digits = 9, decimal_places=2)
+    actividad = models.ForeignKey(Actividad)
 
 
 # Create your models here.

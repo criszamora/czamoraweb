@@ -215,5 +215,18 @@ def enviartrimestres(req):
             ivaingresar = tcuotaivadevengado-soportadodeducible)
         trimestre.save()
     return HttpResponse(json.dumps(respuesta))
+
+def actividadusuario(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        respuesta["actividades"]=[]
+        usuario = req.session["usuario"]
+        actividadusuario = ActividadUsuario.objects.filter(usuario = usuario)
+        for actusu in actividadusuario:
+            act = actusu.tipoactividad
+            respuesta["actividades"].append({"id":act.pk, "nombre":act.actividad})
+       
+    return HttpResponse(json.dumps(respuesta))
+
         
     
