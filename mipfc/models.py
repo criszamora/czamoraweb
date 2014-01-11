@@ -3,12 +3,13 @@ from django.db import models
 
 class Actividad(models.Model):
         actividad=models.TextField()
+        iva=models.IntegerField()
         
 class Usuario(models.Model):
     nombre=models.TextField()
     apellidos=models.TextField()
     email=models.TextField()
-    contrasena=models.TextField()
+    contrasena=models.TextField() 
     
 class ActividadUsuario(models.Model):
     usuario=models.ForeignKey(Usuario)

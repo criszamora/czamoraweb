@@ -44,10 +44,10 @@ def actividades(req):
     
     act = Actividad.objects.all()
     if (len(act)==0):
-        for i in ["comercio", "transporte", "servicios"]:
-            newActividad = Actividad(actividad = i)
+        for i in [("comercio", 21), ("transporte",21), ("servicios",21)]:
+            newActividad = Actividad(actividad = i[0], iva = i[1])
             newActividad.save()
-        Actividad(actividad = "otros", pk=-1).save()
+        Actividad(actividad = "otros", pk=-1, iva = 0).save()
         return actividades(req)
     respuesta = {"listaactividades":[],
     "error":errores["ok"]}
@@ -70,8 +70,12 @@ def registrarse(req):
         req.session["usuario"] = usuario
         print(len(req.POST.getlist("tipoactividad")))
         for act in req.POST.getlist("tipoactividad"):
-            print(act)
-            actividad = Actividad.objects.get(pk=act)
+            if act != "-1":
+                actividad = Actividad.objects.get(pk=act)
+            else:
+                print("guardadno nueva actividad")
+                actividad = Actividad( actividad=req.POST["nuevaactividad"], iva= req.POST["tipoiva"])
+                actividad.save()
             usuact = ActividadUsuario(usuario = usuario, tipoactividad = actividad)
             usuact.save()
         respuesta = {"error":errores["ok"]}
