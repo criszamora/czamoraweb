@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
+        <script type = text/javascript>
+  
+
+	function Init() {
+    	// Ahora es seguro utilizar la API PhoneGap
+    	jQuery("input[name=registrarse]").click(function(){
+    	document.location.href="registro";    	
+    	});
+    	
+    	jQuery("input[name=enviar]").click(function(){
+    		
+    		peticion('login', function(respuesta){
+    		if (respuesta.error==0){
+    			document.location.reload();
+    		}else{
+    			alert("login error");
+    		}
+    		},{datos:jQuery('#formulario').serialize(), metodo:"post"});
+    	});
+    
+    	
+    
+    
+	}
+        
+        
+        jQuery(document).ready(Init);
+	</script>
+    </head>
+    <body>
+        <header>
+		<center><h1>IVApp</h1></center>
+		<div class="logo">
+    		<a href="index.html">
+    			<img src="images/logo.png" alt="logo by mobifreaks"/>
+    		</a>
+    	</div>   
+	</header>
+	<FORM action="index1" method="post" id="formulario">
+            {% csrf_token %}
+    <P>
+    <br>
+    <LABEL for="username">Nombre de usuario: </LABEL>
+              <INPUT type="text" id="username" name="usuario"><BR>
+    <LABEL for="pass">Contraseña: </LABEL>
+              <INPUT type="password" id="pass" name="password"><BR>
+    <center><INPUT type="button" name="enviar" value="Enviar"> <INPUT type="reset">
+    <input type="button" name="registrarse" value="registrarse">
+    </center>
+    </P>
+ </FORM>
+    </body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+{% load static %}
+{% get_static_prefix as STATIC_PREFIX %}
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
+        <script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
+        <script type = text/javascript>
+
+function Init() {
+    // Ahora es seguro utilizar la API PhoneGap
+    jQuery("input[name=registrar]").click(function() {
+        var falloobligatorio = false;
+        jQuery(".obligatorio").each(function(index, value) {
+            if (jQuery(value).val() == "") {
+                falloobligatorio = true;
+            }
+
+        })
+        if (falloobligatorio) {
+            alert("Todos los campos son obligatorios");
+            return;
+        }
+        var patroncorreo = /^[a-zA-Z0-9_\.]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/
+        var email = jQuery("[name=email]").val();
+        if (email.match(patroncorreo) == null) {
+            alert("Email no válido");
+            jQuery("[name=email]").focus();
+            return;
+        }
+
+
+        var contr1 = jQuery("[name=pass]").val();
+        var contr2 = jQuery("[name=passconfirm]").val();
+        if (contr1 != contr2) {
+            alert("Contraseñas no coinciden");
+            jQuery("[name=passconfirm]").val("");
+            jQuery("[name=pass]").val("").focus();
+            return;
+        }
+
+        var patronpass = /^(\w|\d){4,20}$/
+        if (contr1.match(patronpass) == null) {
+            alert("Mínimo 4 caracteres");
+            jQuery("[name=passconfirm]").val("");
+            jQuery("[name=pass]").val("").focus();
+            return;
+        }
+
+
+        peticion("registrarse", function(respuesta) {
+            if (respuesta.error == errores.ok) {
+                alert("Usuario registrado con éxito");
+                document.location.href = "menu.html";
+            } else if (respuesta.error == errores.datosduplicados) {
+                alert("Email ya existente");
+            } else{
+            alert("Error: " + respuesta.error);
+            }
+        }, {datos: jQuery("#formulario").serialize(), metodo: "post"});
+
+    });
+
+
+    //Mostramos u ocultamos la nueva actividad
+    jQuery("[name=tipodeactividad]").change(function() {
+        if (jQuery(this).val() == "-1") {
+            jQuery(".otra_actividad").show();
+        } else {
+            jQuery(".otra_actividad").hide();
+        }
+    });
+    //Descargamos las actividades
+    peticion("actividades", function(respuesta) {
+        if (respuesta.error == 0) {
+            for (var i = 0; i < respuesta.listaactividades.length; i++) {
+                var option = "<option value=\"" + respuesta.listaactividades[i].id + "\">" + respuesta.listaactividades[i].actividad + "</option>";
+                jQuery("select[name=tipodeactividad]").append(option);
+            }
+            var option = "<option value=\"-1\">Otro</option>";
+            jQuery("select[name=tipodeactividad]").append(option);
+        }
+    });
+
+
+
+
+}
+
+
+jQuery(document).ready(Init);
+
+        </script>
+
+    </head>
+    <body>
+
+        <div class="wrap">
+            <header>
+                <div class="logo">
+                    <a href="index.html">
+                        <img src="images/logo.png" alt="logo by mobifreaks"/>
+                    </a>
+                    <p></p>
+                </div>   
+            </header>
+            <div class="content">
+                <article>
+
+                    <section>
+                        <form action="#" method="post" class="label-top" id="formulario">
+                            {% csrf_token %}
+                            <div>
+                                <label for="name">Nombre <span class="red">*</span></label>
+                                <input type="text" name="name" id="name" value="" tabindex="1" class="obligatorio" />
+                            </div>
+                            <div>
+                                <label for="apellidos">Apellidos <span class="red">*</span></label>
+                                <input type="text" name="apellidos" id="apellidos" value="" tabindex="1" class="obligatorio" />
+                            </div>
+                            <div>
+                                <label for="email">Usuario/email <span class="red">*</span></label>
+                                <input type="text" name="email" id="email" value="" tabindex="1" class="obligatorio" />
+                            </div>
+                            <div>
+                                <label for="subject">Contraseña <span class="red">*</span></label>
+                                <input type="password" name="pass" id="pass" value="" tabindex="1" class="obligatorio"/>
+                            </div>
+                            <div>
+                                <label for="Body">Confirmación contraseña <span class="red">*</span></label>
+                                <input type="password" name="passconfirm" id="passconfirm" value="" tabindex="1" class="obligatorio" />
+                            </div>
+                            <div>
+                                <label for="Body">Tipo de actividad <span class="red">*</span></label>
+                                <select name="tipodeactividad" class="obligatorio">
+
+                                </select>
+                            </div>
+                            <div style="display:none" class = "otra_actividad">
+                                <label for="Body">Nombre actividad <span class="red">*</span></label>
+                                <input type="text" name="nuevaactividad" id="nuevaactividad" value="" tabindex="1"  />
+                            </div>
+                            <div>
+                                <input type="button" value="Registrar" name="registrar" />
+                            </div>
+                        </form>
+                    </section>
+                </article>
+            </div>
+            <footer>
+                <nav class="vertical menu">
+                    <ul>
+                        <li><a href="index.html">Home page</a></li>
+                        <li><a href="single.html">Single</a></li>
+                        <li><a href="basic_markup.html">Basic Markup</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <p>- &copy; Copyright 2012 domain.tld</p>
+                <p>- Design by <a href="http://mobifreaks.com">Mobifreaks</a></p>
+            </footer>
+        </div>
+    </body>
+</html>
