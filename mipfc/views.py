@@ -3,7 +3,7 @@ import models
 # Create your views here.
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from mipfc.models import Actividad, Usuario, Prorrata, Trimestre
+from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario
 
 
 errores = {"ok": 0, "sesionperdida": 1, "datoserroneos": 2, "datosduplicados": 3, "sindatos": 4}
@@ -47,6 +47,7 @@ def actividades(req):
         for i in ["comercio", "transporte", "servicios"]:
             newActividad = Actividad(actividad = i)
             newActividad.save()
+        Actividad(actividad = "otros", pk=-1).save()
         return actividades(req)
     respuesta = {"listaactividades":[],
     "error":errores["ok"]}
@@ -61,12 +62,18 @@ def registrarse(req):
         respuesta={"error":errores["datosduplicados"]}
     else:
         
-        actividad = Actividad.objects.get(pk=req.POST["tipodeactividad"])
+        
         usuario = Usuario(nombre = req.POST["name"], 
         apellidos = req.POST["apellidos"], email = req.POST["email"], 
-        contrasena = req.POST["pass"],tipoactividad=actividad)
+        contrasena = req.POST["pass"])
         usuario.save()
         req.session["usuario"] = usuario
+        print(len(req.POST.getlist("tipoactividad")))
+        for act in req.POST.getlist("tipoactividad"):
+            print(act)
+            actividad = Actividad.objects.get(pk=act)
+            usuact = ActividadUsuario(usuario = usuario, tipoactividad = actividad)
+            usuact.save()
         respuesta = {"error":errores["ok"]}
     return HttpResponse(json.dumps(respuesta))
 

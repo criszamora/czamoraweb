@@ -9,6 +9,9 @@ class Usuario(models.Model):
     apellidos=models.TextField()
     email=models.TextField()
     contrasena=models.TextField()
+    
+class ActividadUsuario(models.Model):
+    usuario=models.ForeignKey(Usuario)
     tipoactividad=models.ForeignKey(Actividad)
     
 class Prorrata(models.Model):
