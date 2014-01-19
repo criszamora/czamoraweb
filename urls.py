@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     url(r'^ajax\/trimestres$', 'mypfc.mipfc.views.trimestres', name='trimestres'),
     url(r'^ajax\/enviartrimestres$', 'mypfc.mipfc.views.enviartrimestres', name='enviartrimestres'),
     url(r'^ajax\/actividadusuario$', 'mypfc.mipfc.views.actividadusuario', name='actividadusuario'),
+    url(r'^ajax\/gasto$', 'mypfc.mipfc.views.gasto', name='gasto'),
+    url(r'^ajax\/ingreso$', 'mypfc.mipfc.views.ingreso', name='ingreso'),
     
     #HTML
     url(r'^$', 'mypfc.mipfc.views.inicio', name='inicio'),

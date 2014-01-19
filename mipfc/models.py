@@ -31,6 +31,30 @@ class Trimestre(models.Model):
     soportadodeducible = models.DecimalField(max_digits = 9, decimal_places=2)
     ivaingresar = models.DecimalField(max_digits = 9, decimal_places=2)
     actividad = models.ForeignKey(Actividad)
+    
+class Gasto(models.Model):
+    usuario = models.ForeignKey(Usuario)
+    valor = models.DecimalField(max_digits = 9,decimal_places=2)
+    concepto = models.TextField()
+    fecha = models.DateField()
+    trimestre = models.IntegerField()
+    anio = models.IntegerField()
+    iva = models.IntegerField()
+    cuotaiva = models.DecimalField(max_digits = 9,decimal_places=2)
+    tipoactividad = models.ForeignKey(Actividad)
+    adqintracomunitaria = models.BooleanField()
+    
+class Ingreso(models.Model):
+    usuario = models.ForeignKey(Usuario)
+    valor = models.DecimalField(max_digits = 9,decimal_places=2)
+    concepto = models.TextField()
+    fecha = models.DateField()
+    trimestre = models.IntegerField()
+    anio = models.IntegerField()
+    iva = models.IntegerField()
+    cuotaiva = models.DecimalField(max_digits = 9,decimal_places=2)
+    tipoactividad = models.ForeignKey(Actividad)
+    recargoequivalencia = models.DecimalField(max_digits = 9,decimal_places=2)
 
 
 # Create your models here.

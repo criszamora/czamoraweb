@@ -3,7 +3,8 @@ import models
 # Create your views here.
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario
+from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso
+from datetime import date
 
 
 errores = {"ok": 0, "sesionperdida": 1, "datoserroneos": 2, "datosduplicados": 3, "sindatos": 4}
@@ -16,7 +17,7 @@ def inicio(req):
         return render(req, "inicio.html")
 
 def registro(req):
-    return render(req, "registro.html")
+    return render(req, "contact.html")
     
 
 
@@ -227,6 +228,29 @@ def actividadusuario(req):
             respuesta["actividades"].append({"id":act.pk, "nombre":act.actividad})
        
     return HttpResponse(json.dumps(respuesta))
+
+def gasto(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        #TODO hacer validadores
+        valor = float(req.POST["valor"])
+        #Formate siempre dd/mm/aa
+        dia = int(req.POST["fecha"][0:2])
+        mes = int(req.POST["fecha"][3:5])
+        anio = int(req.POST["fecha"][6:])
+        print anio
+        fecha = date(year = anio,month = mes,day=dia)
+        trimestre = (mes-1)/(3)+1
+        tipoactividad = Actividad.objects.get(pk=req.POST["tipoactividad"])
+        iva = tipoactividad.iva
+        cuotaiva = valor*(float(iva)/100)
+        adqintracomunitaria = "adqintracomunitaria" in req.POST
+        
+        gasto = Gasto(usuario = usuario, valor = valor, concepto = req.POST["concepto"], fecha = fecha, trimestre = trimestre, anio = anio, tipoactividad = tipoactividad, iva = iva, cuotaiva = cuotaiva, adqintracomunitaria=adqintracomunitaria)
+        gasto.save()
+    return HttpResponse(json.dumps(respuesta))
+    
 
         
     
