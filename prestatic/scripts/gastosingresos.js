@@ -48,13 +48,16 @@ jQuery().ready(function(){
             alert("Obligatorio elegir un tipo de actividad")
             return;
         }
-        if (jQuery("input[name=fecha]").val().match(/\^d\d\/\d\d\/\d\d\d\d$/)== null){
+        if (jQuery("input[name=fecha]").val().match(/^\d\d\/\d\d\/\d\d\d\d$/)== null){
             alert("Fecha dd/mm/aaaa")
             return;
         }
         peticion(action,function(respuesta){
             if (respuesta.error == errores.ok){
-                alert("operacion realizada")
+                alert("operacion realizada");
+                jQuery("#formulario input[type=text],#formulario input[type=date],#formulario input[type=number]").val("");
+                jQuery(":radio[name=tipoactividad]:checked").attr("checked",false);
+                
             }else
                 alert("error"+respuesta.error)
         }, {metodo:"post", datos:jQuery("#formulario").serialize()});
