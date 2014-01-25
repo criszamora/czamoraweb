@@ -250,6 +250,36 @@ def gasto(req):
         gasto = Gasto(usuario = usuario, valor = valor, concepto = req.POST["concepto"], fecha = fecha, trimestre = trimestre, anio = anio, tipoactividad = tipoactividad, iva = iva, cuotaiva = cuotaiva, adqintracomunitaria=adqintracomunitaria)
         gasto.save()
     return HttpResponse(json.dumps(respuesta))
+
+def ingreso(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        #TODO hacer validadores
+        valor = float(req.POST["valor"])
+        #Formate siempre dd/mm/aa
+        dia = int(req.POST["fecha"][0:2])
+        mes = int(req.POST["fecha"][3:5])
+        anio = int(req.POST["fecha"][6:])
+        print anio
+        fecha = date(year = anio,month = mes,day=dia)
+        trimestre = (mes-1)/(3)+1
+        tipoactividad = Actividad.objects.get(pk=req.POST["tipoactividad"])
+        iva = tipoactividad.iva
+        cuotaiva = valor*(float(iva)/100)
+        tienerecargoequivalencia = "recargoequivalencia" in req.POST
+        recargoequivalencia = 0
+        #tabaco 0,75 recargo equivalencia
+        if tienerecargoequivalencia:
+            if (iva == 21):
+                    recargoequivalencia = 5.2
+            elif (iva == 10):
+                    recargoequivalencia = 1.4
+            else:
+                    recargoequivalencia = 0.5
+        ingreso = Ingreso(usuario = usuario, valor = valor, concepto = req.POST["concepto"], fecha = fecha, trimestre = trimestre, anio = anio, tipoactividad = tipoactividad, iva = iva, cuotaiva = cuotaiva, recargoequivalencia=recargoequivalencia)
+        ingreso.save()
+    return HttpResponse(json.dumps(respuesta))
     
 
         
