@@ -229,7 +229,7 @@ def actividadusuario(req):
        
     return HttpResponse(json.dumps(respuesta))
 
-def gastos(req):
+def gasto(req):
     respuesta = respuestainicial(req)
     if respuesta["error"] == 0:
         usuario = req.session["usuario"]
@@ -282,6 +282,8 @@ def ingreso(req):
 
 def gastosingresos(req):
      return render(req, "gastosingresos.html")
+ 
+
     
     
 
