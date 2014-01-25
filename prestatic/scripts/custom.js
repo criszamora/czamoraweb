@@ -66,6 +66,6 @@ $(document).ready(function(){
 		return false;
 	});
 
-	var myPhotoSwipe = $("#gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false });
+	//var myPhotoSwipe = $("#gallery a").photoSwipe({ enableMouseWheel: false , enableKeyboard: false });
 
 });
