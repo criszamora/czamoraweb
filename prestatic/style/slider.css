@@ -1,0 +1,124 @@
+
+/*This slider is very fragile and works on most if not all mobile devices */
+/* If you wish to edit anything inside it please contact me, it's best this way to make sure integrity remains*/
+
+
+/*Slider Heading*/
+
+
+
+.slider-decoration{
+	background-image:url(../images/slider/tape.png);
+	height:26px;
+	width:99px;
+	z-index:99999;
+	position:relative;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom:-12px;
+	margin-top:-10px;
+}
+
+.slider-heading{
+	margin-top:-5px;
+	color:#FFFFFF;
+	font-size:12px;
+	font-weight:bold;
+}
+
+.slider-text{
+	font-size:11px;
+	color:#CCC;
+	padding-top:0px;
+	padding-bottom:19px;
+	line-height:20px;
+}
+
+
+.next-but-swipe{
+	padding-right:20px;
+	position:relative;
+	z-index:90;
+	float:left;
+	margin-top:-115px;
+	opacity:1;
+	margin-left:10px;
+}
+
+.prev-but-swipe{
+	padding-left:20px;
+	position:relative;
+	z-index:90;
+	float:right;
+	margin-top:-115px;
+	opacity:1;
+	margin-right:10px;
+}
+
+#slider{
+	position:relative;
+	z-index:9999;
+	
+}
+
+
+@media screen and (min-width: 400px){
+	.next-but-swipe{margin-top:-150px!important;}
+	.prev-but-swipe{margin-top:-150px!important;}
+}
+
+
+.swipe-img{
+	max-width:100%!important;
+	display:block!important;
+}
+
+
+.swipe li div, .swipe div div div {
+  	background:#000;
+  	font-weight:bold;
+  	color:#fff;
+  	font-size:20px;
+  	text-align:center;
+}
+
+.swipe{
+	float:right;
+	width:130px;
+}
+
+.swipe-text{
+	text-align:center!important;
+	text-shadow:none;
+	color:#000!important;
+	position:relative;
+	padding-bottom:5px;
+	padding-top:2px;
+	z-index:9999;
+	background-color: rgba(255, 255, 255, 0.9);
+	margin-top:-40px;
+	font-size:10px;
+	font-weight:400;
+	text-align:left;
+}
+
+
+.slider-shadow-left{
+	z-index:999;
+	position:absolute;
+	background-image:url(../images/slider/shadow_left.png);
+	width:142px;
+	height:100px;
+	margin-top:-107px;
+	margin-left:-2px;
+}
+
+.slider-shadow-right{
+	z-index:999;
+	position:absolute;
+	background-image:url(../images/slider/shadow_right.png);
+	right:48px;
+	width:142px;
+	height:100px;
+	margin-top:-107px;
+}

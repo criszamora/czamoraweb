@@ -1,173 +1,122 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}/jquery-1.10.2.js"></script>
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
-        <script type = text/javascript>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_PREFIX }}/images/splash/splash-icon.png"> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen.png" media="screen and (max-device-width: 320px)" /> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen@2x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen@3x.png" sizes="640x1096">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>The Metro | Mobile Template</title>
+<link href="{{ STATIC_PREFIX }}/style/style.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/color.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/buttons.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/retina.css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" rel="stylesheet" />
+<link href="{{ STATIC_PREFIX }}/style/slider.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/photoswipe.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/touchTouch.css" rel="stylesheet" type="text/css">
 
-function Init() {
-    // Ahora es seguro utilizar la API PhoneGap
-    jQuery("input[name=registrar]").click(function() {
-        var falloobligatorio = false;
-        jQuery(".obligatorio").each(function(index, value) {
-            if (jQuery(value).val() == "") {
-                falloobligatorio = true;
-            }
+<script src="{{ STATIC_PREFIX }}jquery-1.10.2.js"></script>
 
-        })
-        if (falloobligatorio) {
-            alert("Todos los campos son obligatorios");
-            return;
-        }
-        var patroncorreo = /^[a-zA-Z0-9_\.]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/
-        var email = jQuery("[name=email]").val();
-        if (email.match(patroncorreo) == null) {
-            alert("Email no válido");
-            jQuery("[name=email]").focus();
-            return;
-        }
+  <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
+  <script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/registrarse.js" type="text/javascript"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/contact.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/swipe.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/klass.min.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/photoswipe.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/touchTouch.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/retina.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/custom.js"></script>
 
+</head>
 
-        var contr1 = jQuery("[name=pass]").val();
-        var contr2 = jQuery("[name=passconfirm]").val();
-        if (contr1 != contr2) {
-            alert("Contraseñas no coinciden");
-            jQuery("[name=passconfirm]").val("");
-            jQuery("[name=pass]").val("").focus();
-            return;
-        }
+<body>
 
-        var patronpass = /^(\w|\d){4,20}$/
-        if (contr1.match(patronpass) == null) {
-            alert("Mínimo 4 caracteres");
-            jQuery("[name=passconfirm]").val("");
-            jQuery("[name=pass]").val("").focus();
-            return;
-        }
+<div class="header">
+	<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">
+    <a href="#" class="deploy-navigation"></a>
+    <a href="#" class="hide-navigation"></a>
+	<div class="clear"></div>
+</div>
+
+<div class="deployed-navigation">
+    <a href="index.html" id="ico1" class="navigation-icon home"> INICIO</a>
+</div>
 
 
-        peticion("registrarse", function(respuesta) {
-            if (respuesta.error == errores.ok) {
-                alert("Usuario registrado con éxito");
-                document.location.href = "menu.html";
-            } else if (respuesta.error == errores.datosduplicados) {
-                alert("Email ya existente");
-            } else{
-            alert("Error: " + respuesta.error);
-            }
-        }, {datos: jQuery("#formulario").serialize(), metodo: "post"});
-
-    });
-
-
-    //Mostramos u ocultamos la nueva actividad
-    jQuery("[name=tipodeactividad]").change(function() {
-        if (jQuery(this).val() == "-1") {
-            jQuery(".otra_actividad").show();
-        } else {
-            jQuery(".otra_actividad").hide();
-        }
-    });
-    //Descargamos las actividades
-    peticion("actividades", function(respuesta) {
-        if (respuesta.error == 0) {
-            for (var i = 0; i < respuesta.listaactividades.length; i++) {
-                var option = "<option value=\"" + respuesta.listaactividades[i].id + "\">" + respuesta.listaactividades[i].actividad + "</option>";
-                jQuery("select[name=tipodeactividad]").append(option);
-            }
-            var option = "<option value=\"-1\">Otro</option>";
-            jQuery("select[name=tipodeactividad]").append(option);
-        }
-    });
+<div class="content">
 
 
 
-
-}
-
-
-jQuery(document).ready(Init);
-
-        </script>
-
-    </head>
-    <body>
-
-        <div class="wrap">
-            <header>
-                <div class="logo">
-                    <a href="index.html">
-                        <img src="images/logo.png" alt="logo by mobifreaks"/>
-                    </a>
-                    <p></p>
-                </div>   
-            </header>
-            <div class="content">
-                <article>
-
-                    <section>
-                        <form action="#" method="post" class="label-top" id="formulario">
-                            {% csrf_token %}
-                            <div>
-                                <label for="name">Nombre <span class="red">*</span></label>
-                                <input type="text" name="name" id="name" value="" tabindex="1" class="obligatorio" />
-                            </div>
-                            <div>
-                                <label for="apellidos">Apellidos <span class="red">*</span></label>
-                                <input type="text" name="apellidos" id="apellidos" value="" tabindex="1" class="obligatorio" />
-                            </div>
-                            <div>
-                                <label for="email">Usuario/email <span class="red">*</span></label>
-                                <input type="text" name="email" id="email" value="" tabindex="1" class="obligatorio" />
-                            </div>
-                            <div>
-                                <label for="subject">Contraseña <span class="red">*</span></label>
-                                <input type="password" name="pass" id="pass" value="" tabindex="1" class="obligatorio"/>
-                            </div>
-                            <div>
-                                <label for="Body">Confirmación contraseña <span class="red">*</span></label>
-                                <input type="password" name="passconfirm" id="passconfirm" value="" tabindex="1" class="obligatorio" />
-                            </div>
-                            <div>
-                                <label for="Body">Tipo de actividad <span class="red">*</span></label>
-                                <select name="tipodeactividad" class="obligatorio">
-
-                                </select>
-                            </div>
-                            <div style="display:none" class = "otra_actividad">
-                                <label for="Body">Nombre actividad <span class="red">*</span></label>
-                                <input type="text" name="nuevaactividad" id="nuevaactividad" value="" tabindex="1"  />
-                            </div>
-                            <div>
-                                <input type="button" value="Registrar" name="registrar" />
-                            </div>
-                        </form>
-                    </section>
-                </article>
-            </div>
-            <footer>
-                <nav class="vertical menu">
-                    <ul>
-                        <li><a href="index.html">Home page</a></li>
-                        <li><a href="single.html">Single</a></li>
-                        <li><a href="basic_markup.html">Basic Markup</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </nav>
-                <p>- &copy; Copyright 2012 domain.tld</p>
-                <p>- Design by <a href="http://mobifreaks.com">Mobifreaks</a></p>
-            </footer>
+    
+	<div class="decoration in-content"></div>
+    
+        <div class="container">
+            <div class="contactForm" id="contactForm">
+              <form id="formulario">
+                   {% csrf_token %}
+                  <fieldset>
+                      <label for="name" class="etiqueta">Nombre *</label>
+                      <input type="text" name="name" id="name" value="" tabindex="1" size="30" class="obligatorio text-input" />
+                      <label for="apellidos" class="etiqueta">Apellidos <span class="red">*</span></label>
+                      <input type="text" name="apellidos" id="apellidos" value="" tabindex="1" class="obligatorio text-input" />
+                      <label for="email" class="etiqueta">Usuario/email <span class="red">*</span></label>
+			          <input type="email" name="email" id="email" value="" tabindex="1" class="obligatorio text-input" />
+			          <label for="pass" class="etiqueta">Contraseña <span class="red">*</span></label>
+			          <input type="password" name="pass" id="pass" value="" tabindex="1" class="obligatorio text-input"/>
+			          <label for="Body" class="etiqueta">Confirmación contraseña <span class="red">*</span></label>
+					  <input type="password" name="passconfirm" id="passconfirm" value="" tabindex="1" class="obligatorio text-input" />
+					  <label for="Body" class="etiqueta">Tipo de actividad <span class="red">*</span></label>
+					  <div class="tipoactividades"></div>
+					  <div style="display:none" class = "otra_actividad">
+					 <label for="Body">Nombre actividad <span class="red">*</span></label>
+					 <input type="text" name="nuevaactividad" id="nuevaactividad" value="" tabindex="1" class="text-input"  />
+				    <select name="tipoiva" style="width:80px; height:20px;border-style:solid; border-width:1px">
+					<option value="4">4%</option>
+					<option value="10">10%</option>
+					<option value="21">21%</option>
+				
+					</select>
+					</div>
+                      
+                      
+                      <p class="contact-button-house">
+                     <!--     <input type="submit" name="submitMessage" class="full-screen-button contactButton button black" id="contactSubmitBtn" value="Send"/>-->
+                     <input type="button" value="Registrar" name="registrar" class="full-screen-button contactButton button black" id="contactSubmitBtn"  />
+                     
+                      </p>
+                  </fieldset>
+              </form>
+          </div>
         </div>
-    </body>
+	</div>
+
+</div>
+
+<div class="decoration"></div>
+
+<p class="center-text copyright">Copyright 2012. All rights reserved.</p>
+
+
+</body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

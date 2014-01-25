@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+.heading-color{			background-color:#00a6e8; }
+.deploy-navigation{ 	background-color:#00a6e8;	} 
+.hide-navigation{		background-color:#00a6e8;	}
+.navigation-icon{		background-color:#00a6e8;	}
+.big-metro{				background-color:#00a6e8;	}
+.small-metro{			background-color:#00a6e8;	}
+.big-metro-bottom{		background-color:#00a6e8;	}
+.medium-metro-bottom{	background-color:#00a6e8;	}
+.small-metro-bottom{	background-color:#00a6e8;	}
+.icon{					background-color:#00a6e8;	}
+#slider{				border:solid 5px #00a6e8;	}
+.responsive-image{		background-color:#00a6e8;	}
+#contactName:focus{			border:solid 1px #00a6e8;}
+#contactEmail:focus{ 		border:solid 1px #00a6e8;}
+#contactMessage:focus{		border:solid 1px #00a6e8;}
+.captioned-image span{	background-color:rgba(0,166,232,0.8)}
+

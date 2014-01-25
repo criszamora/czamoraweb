@@ -17,7 +17,7 @@ def inicio(req):
         return render(req, "inicio.html")
 
 def registro(req):
-    return render(req, "contact.html")
+    return render(req, "registro.html")
     
 
 
