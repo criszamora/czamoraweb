@@ -38,6 +38,20 @@ jQuery().ready(function(){
     //TODO validar todos los campos anteriores 
     jQuery("#contactSubmitBtn").click(function(){
         var action = jQuery("#formulario").attr("action")
+        var  valor = parseFloat(jQuery("input[name=valor]").val())
+        if (isNaN(valor)){
+            alert("Introduzca un valor númerico")
+            jQuery("input[name=valor]").focus()
+            return;
+        }
+        if (jQuery(":radio[name=tipoactividad]:checked").size()==0){
+            alert("Obligatorio elegir un tipo de actividad")
+            return;
+        }
+        if (jQuery("input[name=fecha]").val().match(/\^d\d\/\d\d\/\d\d\d\d$/)== null){
+            alert("Fecha dd/mm/aaaa")
+            return;
+        }
         peticion(action,function(respuesta){
             if (respuesta.error == errores.ok){
                 alert("operacion realizada")
