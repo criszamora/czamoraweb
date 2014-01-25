@@ -65,7 +65,7 @@ jQuery().ready(function(){
      	
      	//Descargamos las actividades
      	peticion("actividades",function(respuesta){
-     		if(respuesta.error == 0){
+     		if(respuesta.error == errores.ok){
      			for (var i = 0; i < respuesta.listaactividades.length; i++){
      				var input = "<span class=\"checkbox_tipoactividad\"><input value=\""+respuesta.listaactividades[i].id+"\" name=\"tipoactividad\" type=\"checkbox\" >"+respuesta.listaactividades[i].actividad;
      				jQuery("div.tipoactividades").append(input);

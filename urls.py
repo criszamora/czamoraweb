@@ -24,7 +24,8 @@ urlpatterns = patterns('',
     
     #HTML
     url(r'^$', 'mypfc.mipfc.views.inicio', name='inicio'),
-    url(r'^registro$', 'mypfc.mipfc.views.registro', name='registro')
+    url(r'^registro$', 'mypfc.mipfc.views.registro', name='registro'),
+    url(r'^gastosingresos$', 'mypfc.mipfc.views.gastosingresos', name='gastosingresos')
     
     
     # Examples:

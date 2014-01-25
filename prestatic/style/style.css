@@ -1189,4 +1189,12 @@ label#message_label{
 	box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
+.desplegable{
+        font-size: 16px;
+        height: 30 px;
+        width: 180px;
+        border-style:solid; 
+        border-width:1px;
+    
+}
 

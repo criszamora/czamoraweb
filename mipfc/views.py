@@ -229,7 +229,7 @@ def actividadusuario(req):
        
     return HttpResponse(json.dumps(respuesta))
 
-def gasto(req):
+def gastos(req):
     respuesta = respuestainicial(req)
     if respuesta["error"] == 0:
         usuario = req.session["usuario"]
@@ -239,7 +239,7 @@ def gasto(req):
         dia = int(req.POST["fecha"][0:2])
         mes = int(req.POST["fecha"][3:5])
         anio = int(req.POST["fecha"][6:])
-        print anio
+        
         fecha = date(year = anio,month = mes,day=dia)
         trimestre = (mes-1)/(3)+1
         tipoactividad = Actividad.objects.get(pk=req.POST["tipoactividad"])
@@ -261,7 +261,6 @@ def ingreso(req):
         dia = int(req.POST["fecha"][0:2])
         mes = int(req.POST["fecha"][3:5])
         anio = int(req.POST["fecha"][6:])
-        print anio
         fecha = date(year = anio,month = mes,day=dia)
         trimestre = (mes-1)/(3)+1
         tipoactividad = Actividad.objects.get(pk=req.POST["tipoactividad"])
@@ -280,6 +279,10 @@ def ingreso(req):
         ingreso = Ingreso(usuario = usuario, valor = valor, concepto = req.POST["concepto"], fecha = fecha, trimestre = trimestre, anio = anio, tipoactividad = tipoactividad, iva = iva, cuotaiva = cuotaiva, recargoequivalencia=recargoequivalencia)
         ingreso.save()
     return HttpResponse(json.dumps(respuesta))
+
+def gastosingresos(req):
+     return render(req, "gastosingresos.html")
+    
     
 
         
