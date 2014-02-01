@@ -57,6 +57,7 @@ jQuery().ready(function(){
                 alert("operacion realizada");
                 jQuery("#formulario input[type=text],#formulario input[type=date],#formulario input[type=number]").val("");
                 jQuery(":radio[name=tipoactividad]:checked").attr("checked",false);
+                jQuery(":checkbox[name=recargoequivalencia],:checkbox[name=adquisicionintracomunitaria]").attr("checked",false);
                 
             }else
                 alert("error"+respuesta.error)
