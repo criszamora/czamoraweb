@@ -20,7 +20,7 @@
 <script src="{{ STATIC_PREFIX }}jquery-1.10.2.js"></script>
 <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
 <script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
-<script src="{{ STATIC_PREFIX }}/scripts/liquidacion.js" type="text/javascript"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/prorrata.js" type="text/javascript"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/swipe.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/klass.min.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/photoswipe.js"></script>
@@ -58,10 +58,8 @@
                    {% csrf_token %}
                   <fieldset>
                       <p>Año <span class="anio"></span></p>
-                      <p>Trimestre <span class="trimestre"></span></p>
-                      <div class="prorrata" style="display:none">Prorrata año anterior: <input type="text" name="prorrata" placeholder="ejemplo: 50"></div>
-                      <div class="gastoseingresos"></div>
-                      <div class="resultado">Resultado: <span class="resultado_operacion"></span></div>
+                      <div class="prorrata">Prorrata: <input type="number" name="prorrata" placeholder="ejemplo: 50"></div>
+      
                       <p class="contact-button-house">
                      <!--     <input type="submit" name="submitMessage" class="full-screen-button contactButton button black" id="contactSubmitBtn" value="Send"/>-->
                      <input type="button" value="Enviar" name="enviar" class="full-screen-button contactButton button black" id="contactSubmitBtn"  />

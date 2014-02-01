@@ -4,7 +4,8 @@ import models
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso
-from datetime import date
+from datetime import date, datetime
+
 
 
 errores = {"ok": 0, "sesionperdida": 1, "datoserroneos": 2, "datosduplicados": 3, "sindatos": 4}
@@ -91,17 +92,26 @@ def respuestainicial(req):
         respuesta["error"] = errores["sesionperdida"]
     return respuesta
 
+def tengoprorrata(usuario,anio):
+    prorr = Prorrata.objects.filter(usuario = usuario, anio = anio)
+    if len(prorr) == 0:
+        return False
+    else:
+        return True
+
+
 def prorrata(req):
     respuesta = respuestainicial(req)
     if respuesta["error"] == 0:
         if "anio" in req.GET:
             anio = int(req.GET["anio"])
             usuario = req.session["usuario"]
-            prorr = Prorrata.objects.filter(usuario = usuario, anio = anio)
-            if len(prorr) == 0:
-                respuesta["error"] = errores["sindatos"]
+            if (tengoprorrata(usuario,anio)):
+                prorr = Prorrata.objects.filter(usuario = usuario, anio = anio)
+                respuesta["porcentaje"] = prorr.porcentaje
             else:
-                respuesta["porcentaje"] = prorr[0].porcentaje
+                respuesta["error"] = errores["sindatos"] 
+                
         else:
             respuesta["error"] = errores["datoserroneos"]    
     return HttpResponse(json.dumps(respuesta))
@@ -282,6 +292,20 @@ def ingreso(req):
 
 def gastosingresos(req):
      return render(req, "gastosingresos.html")
+ 
+def liquidacion(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        fecha = datetime.now()
+        mes = fecha.month
+        anio = fecha.year -1
+        if  mes == 1:
+            anio = anio -1
+        if tengoprorrata(usuario,anio):
+            return render(req, "liquidacion.html")
+        else:
+            return render(req, "prorrata.html")
  
 
     
