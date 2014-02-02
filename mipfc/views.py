@@ -306,7 +306,44 @@ def liquidacion(req):
             return render(req, "liquidacion.html")
         else:
             return render(req, "prorrata.html")
- 
+        
+def pedirliquidacion(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        anio = int(req.GET["anio"])
+        trimestre = int(req.GET["trimestre"])
+        usuario = req.session["usuario"]
+        prorrata = Prorrata.objects.filter(usuario = usuario,anio = anio-1)[0].porcentaje
+        respuesta["prorrata"]= prorrata
+        gastosingresos = []
+        gastos = Gasto.objects.filter(usuario = usuario, anio = anio, trimestre = trimestre)
+        for losgastos in gastos:
+            elgastoingreso = buscargastoingreso(gastosingresos,losgastos.iva)
+            elgastoingreso["gasto"]+=float(losgastos.valor) #TODO verficiar adquisicion intracomunitaria
+        ingresos = Ingreso.objects.filter(usuario = usuario, anio = anio, trimestre = trimestre)
+        for losingresos in ingresos:
+            elgastoingreso = buscargastoingreso(gastosingresos,losingresos.iva)
+            elgastoingreso["ingreso"]+=float(losingresos.valor)
+            if losingresos.recargoequivalencia !=0:
+                elgastoingreso["totalrecargoequivalencia"]+=float(losingresos.valor)
+        respuesta["gastosingresos"] = gastosingresos
+    return HttpResponse(json.dumps(respuesta))
+        
+            
+    
+def buscargastoingreso(gastoingreso,iva):
+    for elgastoingreso in gastoingreso:
+        if elgastoingreso["iva"] == iva:
+            return elgastoingreso
+    elgastoingreso = {"iva":iva, "gasto":0, "ingreso":0, "recargoequivalencia":0, "totalrecargoequivalencia":0}
+    if (iva == 21):
+        elgastoingreso["recargoequivalencia"] = 5.2
+    elif (iva == 10):
+        elgastoingreso["recargoequivalencia"] = 1.4
+    else:
+        elgastoingreso["recargoequivalencia"] = 0.5
+    gastoingreso.append(elgastoingreso)
+    return elgastoingreso
 
     
     

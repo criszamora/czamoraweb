@@ -21,12 +21,14 @@ urlpatterns = patterns('',
     url(r'^ajax\/actividadusuario$', 'mypfc.mipfc.views.actividadusuario', name='actividadusuario'),
     url(r'^ajax\/gasto$', 'mypfc.mipfc.views.gasto', name='gasto'),
     url(r'^ajax\/ingreso$', 'mypfc.mipfc.views.ingreso', name='ingreso'),
+    url(r'^ajax\/pedirliquidacion$', 'mypfc.mipfc.views.pedirliquidacion', name='pedirliquidacion'),
     
     
     #HTML
     url(r'^$', 'mypfc.mipfc.views.inicio', name='inicio'),
     url(r'^registro$', 'mypfc.mipfc.views.registro', name='registro'),
-    url(r'^gastosingresos$', 'mypfc.mipfc.views.gastosingresos', name='gastosingresos')
+    url(r'^gastosingresos$', 'mypfc.mipfc.views.gastosingresos', name='gastosingresos'),
+    url(r'^liquidacion$', 'mypfc.mipfc.views.liquidacion', name='liquidacion')
     
     
     # Examples:

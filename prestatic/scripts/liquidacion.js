@@ -13,12 +13,7 @@ jQuery().ready(function(){
    }
    jQuery(".trimestre").text(trimestre)
    
-   peticion("prorrata", function(respuesta){
-       if (respuesta.error == errores.sindatos){
-           jQuery(".prorrata").show();
-           
-      }
-   }, {datos:{anio:anio}})
+   peticion("pedirtrimestre", function(respuesta){}, {datos:{anio:anio, trimestre:trimestre}})
 });
 
 

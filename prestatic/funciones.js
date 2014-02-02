@@ -32,3 +32,25 @@ function peticion(accion, funcionrespuesta, opciones){
 function pedirtoken(funcionrespuesta){
 	peticion("token", funcionrespuesta, {tipo:"text"});
 }
+
+jQuery().ready(function(){ 
+	
+ 
+     	
+     	//Recogemos el token
+     	
+    	
+    	jQuery("#ico6").click(function(evento){
+        	evento.preventDefault();
+        	peticion("logout", function(respuesta){
+        		if (respuesta.error == errores.ok){
+        			window.localStorage.removeItem("usuarioconectado");
+        			window.localStorage.removeItem("usuario");
+        			window.localStorage.removeItem("password");
+        			document.location.href="/"
+        		}
+        	});
+        	
+        });
+     	
+	});
