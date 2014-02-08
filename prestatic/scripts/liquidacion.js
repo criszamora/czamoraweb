@@ -13,7 +13,12 @@ jQuery().ready(function(){
    }
    jQuery(".trimestre").text(trimestre)
    
-   peticion("pedirtrimestre", function(respuesta){}, {datos:{anio:anio, trimestre:trimestre}})
+   peticion("obtenerliquidacion", function(respuesta){
+       jQuery(".liquidacion").text(sprintf("%.2f",respuesta.liquidacion))
+       
+   }, {datos:{anio:anio, trimestre:trimestre}})
+   
+   
 });
 
 

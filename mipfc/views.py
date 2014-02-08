@@ -345,12 +345,12 @@ def buscargastoingreso(gastoingreso,iva):
     gastoingreso.append(elgastoingreso)
     return elgastoingreso
 
-def liquidacion(gastosingresos, prorrata):
+def mostrarliquidacion(gastosingresos, prorrata):
     gasto = 0.0
     ingreso = 0.0
     for gastoingreso in gastosingresos:
         gasto+= gastoingreso["gasto"]*(float(gastoingreso["iva"])/100.0)
-        ingresoconre= gastoingreso["totalrecargoequivalencia"]* obtenerRecargoequivalencia(gastoingreso["iva"])
+        ingresoconre= gastoingreso["totalrecargoequivalencia"]* (float(obtenerRecargoequivalencia(gastoingreso["iva"])/100.0))
         ingreso+=gastoingreso["ingreso"]*(float(gastoingreso["iva"])/100)*float(prorrata)/100.0 + ingresoconre
     return gasto-ingreso
         
@@ -385,7 +385,7 @@ def obtenerliquidacion(req):
         usuario = req.session["usuario"]
         prorrata = obtenerProrrata(usuario, anio-1)
         gastosingresos = obtenerGeI(usuario,anio,trimestre)
-        respuesta["liquidacion"] = liquidacion(gastosingresos,prorrata)
+        respuesta["liquidacion"] = mostrarliquidacion(gastosingresos,prorrata)
     return HttpResponse(json.dumps(respuesta))
      
     
