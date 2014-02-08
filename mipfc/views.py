@@ -307,7 +307,7 @@ def liquidacion(req):
         else:
             return render(req, "prorrata.html")
         
-def pedirliquidacion(req):
+def pedirliquidacion(req): #estadisticas
     respuesta = respuestainicial(req)
     if respuesta["error"] == 0:
         anio = int(req.GET["anio"])
@@ -345,6 +345,61 @@ def buscargastoingreso(gastoingreso,iva):
     gastoingreso.append(elgastoingreso)
     return elgastoingreso
 
+def liquidacion(gastosingresos, prorrata):
+    gasto = 0.0
+    ingreso = 0.0
+    for gastoingreso in gastosingresos:
+        gasto+= gastoingreso["gasto"]*(float(gastoingreso["iva"])/100.0)
+        ingresoconre= gastoingreso["totalrecargoequivalencia"]* obtenerRecargoequivalencia(gastoingreso["iva"])
+        ingreso+=gastoingreso["ingreso"]*(float(gastoingreso["iva"])/100)*float(prorrata)/100.0 + ingresoconre
+    return gasto-ingreso
+        
+    
+
+
+def obtenerGeI(usuario,anio,trimestre):
+    # Doy usuario, anio y trimestre->total de gastos 21%,10%,4%-->tenemos la suma de cada iva
+        gastosingresos = []
+        gastos = Gasto.objects.filter(usuario = usuario, anio = anio, trimestre = trimestre)
+        for losgastos in gastos:
+            elgastoingreso = buscargastoingreso(gastosingresos,losgastos.iva)
+            elgastoingreso["gasto"]+=float(losgastos.valor) #TODO verficiar adquisicion intracomunitaria
+        ingresos = Ingreso.objects.filter(usuario = usuario, anio = anio, trimestre = trimestre)
+        for losingresos in ingresos:
+            elgastoingreso = buscargastoingreso(gastosingresos,losingresos.iva)
+            elgastoingreso["ingreso"]+=float(losingresos.valor)
+            if losingresos.recargoequivalencia !=0:
+                elgastoingreso["totalrecargoequivalencia"]+=float(losingresos.valor)
+        return gastosingresos
+
+
+def obtenerProrrata(usuario, anio):
+    prorrata = Prorrata.objects.filter(usuario = usuario,anio = anio)[0].porcentaje
+    return prorrata
+
+def obtenerliquidacion(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        anio = int(req.GET["anio"])
+        trimestre = int(req.GET["trimestre"])
+        usuario = req.session["usuario"]
+        prorrata = obtenerProrrata(usuario, anio-1)
+        gastosingresos = obtenerGeI(usuario,anio,trimestre)
+        respuesta["liquidacion"] = liquidacion(gastosingresos,prorrata)
+    return HttpResponse(json.dumps(respuesta))
+     
+    
+
+def obtenerRecargoequivalencia(iva):
+    if (iva == 21):
+        recargoequivalencia = 5.2
+    elif (iva == 10):
+        recargoequivalencia = 1.4
+    elif (iva == 4):
+        recargoequivalencia = 0.5
+    else:
+        recargoequivalencia = 0.0
+    return recargoequivalencia
     
     
 
