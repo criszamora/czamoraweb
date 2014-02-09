@@ -11,13 +11,21 @@ jQuery().ready(function(){
    }else{
        trimestre = (fecha.getMonth()-1)/3 +1;
    }
+   //trimestre=1,2,3,4
    jQuery(".trimestre").text(trimestre)
    
-   peticion("obtenerliquidacion", function(respuesta){
+   funcionmostrarliquidacion = function(respuesta){
        jQuery(".liquidacion").text(sprintf("%.2f",respuesta.liquidacion))
        
-   }, {datos:{anio:anio, trimestre:trimestre}})
+   }
    
+   if (trimestre == 4){
+
+           peticion("cerrar", funcionmostrarliquidacion, {datos:{anio:anio, csrfmiddlewaretoken:jQuery("[name=csrfmiddlewaretoken]").val()},metodo: "post"}) //get:select, post:insert
+
+   }else{
+   peticion("obtenerliquidacion", funcionmostrarliquidacion, {datos:{anio:anio, trimestre:trimestre}});
+   }
    
 });
 
