@@ -1,5 +1,6 @@
 import json
 import models
+import math
 # Create your views here.
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
@@ -400,8 +401,56 @@ def obtenerRecargoequivalencia(iva):
     else:
         recargoequivalencia = 0.0
     return recargoequivalencia
-    
-    
 
-        
+def ayuda(req):
+    return render(req, "ayuda.html")
+    
+    
+def cerrar(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        anio = int(req.POST["anio"])
+        respuesta["liquidacion"] = cerrarliquidacion(usuario,anio)
+    return HttpResponse(json.dumps(respuesta))
+     
+def cerrarliquidacion(usuario,anio):    
+    liq = 0
+    ingresos = Ingreso.objects.filter(usuario = usuario, anio = anio)
+    totalconiva = 0.0
+    total = 0.0
+    for ingreso in ingresos:
+        total += float(ingreso.valor)
+        if (ingreso.iva != 0):
+                totalconiva += float(ingreso.valor)
+    prorrata = (totalconiva/total)*100
+    prorrata = int(math.ceil(prorrata))
+    p = Prorrata.objects.filter(usuario=usuario, anio=anio)
+    if len(p) == 0:
+        pro = Prorrata(usuario = usuario, anio = anio, porcentaje = prorrata)
+        pro.save()
+    else:
+        pro = p[0]
+        pro.porcentaje = prorrata
+        pro.save()
+    prorrataant = float(Prorrata.objects.get(usuario = usuario, anio = anio-1).porcentaje)
+    liqanterior = 0.0
+    liqcorregido = 0.0
+    #Regularizacion
+    for trimestre in [1,2,3]:
+        gastosingresos = obtenerGeI(usuario,anio,trimestre)
+        liqanterior += mostrarliquidacion(gastosingresos,prorrataant)
+    for trimestre in [1,2,3]:
+        gastosingresos = obtenerGeI(usuario,anio,trimestre)
+        liqcorregido += mostrarliquidacion(gastosingresos,prorrata) 
+    regularizacion = liqcorregido -liqanterior
+    #cuarto trimestre
+    gastosingresos = obtenerGeI(usuario,anio,4)
+    liquidacion4 = mostrarliquidacion(gastosingresos,prorrata) 
+    liq = liquidacion4 + regularizacion
+    
+    
+    
+    
+    return liq
     
