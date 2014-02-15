@@ -475,10 +475,58 @@ def estadisticastrimestrales(req):
     respuesta = respuestainicial(req)
     if respuesta["error"] == 0:
         usuario = req.session["usuario"]
-        respuesta["trimestres"] = [{"nombre": "Primer trimestre 2013", "gastos": 50000, "ingresos": 3000, "liquidacion": 200},
-        {"nombre": "Segundo trimestre 2013", "gastos": 30000, "ingresos": 6000, "liquidacion": 700}, 
-        {"nombre": "Tercer trimestre 2013", "gastos": 500, "ingresos": 300, "liquidacion": 500},
-        {"nombre": "Cuarto trimestre 2013", "gastos": 4000, "ingresos": 3000, "liquidacion": 2000},
-        {"nombre": "Primer trimestre 2014", "gastos": 50000, "ingresos": 3000, "liquidacion": 200}]
-    return HttpResponse(json.dumps(respuesta))  
+        fecha = datetime.now()
+        anio = fecha.year
+        trimestre = (fecha.month-1)/(3)+1
+        trimestres = []
+        for i in range(5):
+            gastoseingresos=obtenerGeI(usuario,anio,trimestre)
+            gasto = sumargastos(gastoseingresos)
+            ingreso = sumaringresos(gastoseingresos)
+            prorratas = Prorrata.objects.filter(usuario = usuario, anio = anio-1)
+            if len(prorratas) == 0:
+                liquidacion=0
+            else:
+                if trimestre == 4:
+                    liquidacion = cerrarliquidacion(usuario,anio)
+                else:
+                    liquidacion = mostrarliquidacion(gastoseingresos,prorratas[0].porcentaje)
+            eltrimestre= {"nombre": titulotrimestre(anio,trimestre), "gastos": gasto, "ingresos": ingreso, "liquidacion": liquidacion}
+            trimestres.append(eltrimestre)
+            anio,trimestre = trimestreanterior(anio,trimestre)
+        trimestres.reverse()
+        respuesta["trimestres"] = trimestres
+    return HttpResponse(json.dumps(respuesta)) 
+
+def trimestreanterior(anio,trimestre):
+    if trimestre == 1:
+        nuevoanio = anio-1
+        nuevotrimestre = 4
+    else:
+        nuevoanio = anio
+        nuevotrimestre = trimestre-1
+    return nuevoanio, nuevotrimestre
     
+def titulotrimestre(anio,trimestre):
+    if trimestre == 1:
+        cadena = "Primer"
+    elif trimestre == 2 :
+        cadena = "Segundo"
+    elif trimestre == 3:
+        cadena = "Tercer"
+    else:
+        cadena = "Cuarto"
+    return "%s Trimestre %d" %(cadena, anio)
+
+
+def sumargastos(gastoseingresos):
+    total = 0
+    for gasto in gastoseingresos:
+        total += gasto["gasto"]
+    return total
+
+def sumaringresos(gastoseingresos):
+    total = 0
+    for ingreso in gastoseingresos:
+        total += ingreso["ingreso"]
+    return total
