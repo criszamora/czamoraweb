@@ -470,4 +470,15 @@ def estadisticasanuales(req):
                 liquidaciones.append(cerrarliquidacion(usuario,anio))
         respuesta["liquidacion"] = liquidaciones
     return HttpResponse(json.dumps(respuesta))
+
+def estadisticastrimestrales(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        respuesta["trimestres"] = [{"nombre": "Primer trimestre 2013", "gastos": 50000, "ingresos": 3000, "liquidacion": 200},
+        {"nombre": "Segundo trimestre 2013", "gastos": 30000, "ingresos": 6000, "liquidacion": 700}, 
+        {"nombre": "Tercer trimestre 2013", "gastos": 500, "ingresos": 300, "liquidacion": 500},
+        {"nombre": "Cuarto trimestre 2013", "gastos": 4000, "ingresos": 3000, "liquidacion": 2000},
+        {"nombre": "Primer trimestre 2014", "gastos": 50000, "ingresos": 3000, "liquidacion": 200}]
+    return HttpResponse(json.dumps(respuesta))  
     

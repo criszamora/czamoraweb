@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     url(r'^ajax\/pedirliquidacion$', 'mypfc.mipfc.views.pedirliquidacion', name='pedirliquidacion'),
     url(r'^ajax\/obtenerliquidacion$', 'mypfc.mipfc.views.obtenerliquidacion', name='obtenerliquidacion'),
     url(r'^ajax\/cerrar$', 'mypfc.mipfc.views.cerrar', name='cerrar'),
+    url(r'^ajax\/estadisticasanuales$', 'mypfc.mipfc.views.estadisticasanuales', name='estadisticasanuales'),
+    url(r'^ajax\/estadisticastrimestrales$', 'mypfc.mipfc.views.estadisticastrimestrales', name='estadisticastrimestrales'),
     
     
     #HTML
@@ -32,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^gastosingresos$', 'mypfc.mipfc.views.gastosingresos', name='gastosingresos'),
     url(r'^liquidacion$', 'mypfc.mipfc.views.liquidacion', name='liquidacion'),
     url(r'^ayuda$', 'mypfc.mipfc.views.ayuda', name='ayuda'),
+    url(r'^estadisticas$', 'mypfc.mipfc.views.estadisticas', name='estadisticas')
     
     
     
