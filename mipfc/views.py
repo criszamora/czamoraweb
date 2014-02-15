@@ -423,7 +423,10 @@ def cerrarliquidacion(usuario,anio):
         total += float(ingreso.valor)
         if (ingreso.iva != 0):
                 totalconiva += float(ingreso.valor)
-    prorrata = (totalconiva/total)*100
+    if total == 0:
+        prorrata = 100
+    else:
+        prorrata = (totalconiva/total)*100
     prorrata = int(math.ceil(prorrata))
     p = Prorrata.objects.filter(usuario=usuario, anio=anio)
     if len(p) == 0:
@@ -448,9 +451,23 @@ def cerrarliquidacion(usuario,anio):
     gastosingresos = obtenerGeI(usuario,anio,4)
     liquidacion4 = mostrarliquidacion(gastosingresos,prorrata) 
     liq = liquidacion4 + regularizacion
-    
-    
-    
-    
     return liq
+
+def estadisticas(req):
+    return render(req, "estadistica.html")
+
+def estadisticasanuales(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        aniocurso = datetime.now().year
+        respuesta["anios"] = range(aniocurso-3, aniocurso) #genera un array 2011-2013
+        liquidaciones=[]
+        for anio in respuesta["anios"]:
+            if len(Prorrata.objects.filter(usuario = usuario, anio = anio-1)) == 0:
+                liquidaciones.append(0.0)
+            else:
+                liquidaciones.append(cerrarliquidacion(usuario,anio))
+        respuesta["liquidacion"] = liquidaciones
+    return HttpResponse(json.dumps(respuesta))
     
