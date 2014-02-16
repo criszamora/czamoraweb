@@ -1,5 +1,11 @@
+function getURL(){
+	return  "/"; 
+}
+
+
+
 function peticion(accion, funcionrespuesta, opciones){
-	var url = "/";
+	var url = getURL();
 	var formato = "json";
 	var ruta = "ajax";
 	var datos = {};

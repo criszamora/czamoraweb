@@ -1,5 +1,6 @@
 jQuery().ready(function(){
     jQuery("select[name=gastosingresos]").change(function(){
+        jQuery("#regionQR").hide()
         jQuery("#tipoactividad").empty();
         if (jQuery(this).val()=="0"){
             jQuery("label[for=gasto]").text("Gasto"); 
@@ -55,6 +56,16 @@ jQuery().ready(function(){
         peticion(action,function(respuesta){
             if (respuesta.error == errores.ok){
                 alert("operacion realizada");
+                if (jQuery("select[name=gastosingresos]").val()=="1"){
+                     var concepto = jQuery("#formulario input[type=text][name=concepto]").val()
+                    var importe = jQuery("#formulario input[type=number][name=valor]").val()
+                    var fecha = jQuery("#formulario input[type=date][name=fecha]").val()
+                    var actividad = jQuery(":radio[name=tipoactividad]:checked").val()
+                    jQuery("#imagenQR").attr("src",getURL()+"qr?texto="+concepto+";"+importe+";"+fecha+";"+actividad+";0")
+                    jQuery("#regionQR").show()
+                }else{
+                    jQuery("#regionQR").hide()
+                }
                 jQuery("#formulario input[type=text],#formulario input[type=date],#formulario input[type=number]").val("");
                 jQuery(":radio[name=tipoactividad]:checked").attr("checked",false);
                 jQuery(":checkbox[name=recargoequivalencia],:checkbox[name=adquisicionintracomunitaria]").attr("checked",false);
@@ -62,6 +73,11 @@ jQuery().ready(function(){
             }else
                 alert("error"+respuesta.error)
         }, {metodo:"post", datos:jQuery("#formulario").serialize()});
+    });
+    
+    jQuery("[name=descargar]").click(function(){
+        var url=jQuery("#imagenQR").attr("src")+"&descargar=1"
+        document.location.href = url
     });
     
     

@@ -6,6 +6,7 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso
 from datetime import date, datetime
+import qrencode
 
 
 
@@ -530,3 +531,22 @@ def sumaringresos(gastoseingresos):
     for ingreso in gastoseingresos:
         total += ingreso["ingreso"]
     return total
+
+
+def qr(req):
+    texto = req.GET["texto"]
+    dat = qrencode.encode_scaled(texto,200)[2]
+    dat.save("codigoQR.jpg")
+    response = HttpResponse(content_type='image/jpeg')
+    if "descargar" in req.GET:
+        response['Content-Disposition'] = 'attachment; filename="codigoQR.jpg"'
+    archivo = open("codigoQR.jpg", "r")
+    fin = False
+    while not fin:
+        caracter = archivo.read(1)
+        if caracter == "":
+            fin = True
+        else:
+            response.write(caracter)
+    archivo.close()
+    return response

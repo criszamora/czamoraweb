@@ -64,7 +64,7 @@
                    {% csrf_token %}
                   <fieldset>
                       <label for="gasto" class="etiqueta">Gastos</label>
-                      <input type="text" name="valor" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" />
+                      <input type="number" name="valor" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" />
                       <label for="concepto" class="etiqueta">Concepto</label>
                       <input type="text" name="concepto" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" />
                      
@@ -77,7 +77,10 @@
                       <p class="contact-button-house">
                      <!--     <input type="submit" name="submitMessage" class="full-screen-button contactButton button black" id="contactSubmitBtn" value="Send"/>-->
                      <input type="button" value="Enviar" name="enviar" class="full-screen-button contactButton button black" id="contactSubmitBtn"  />
-                     
+                      <div align="center" id="regionQR" style="display:none">
+                          <img src ="" id="imagenQR" /><br>
+                          <input type="button" name="descargar" value="Descargar QR">
+                      </div>
                       </p>
                   </fieldset>
               </form>
