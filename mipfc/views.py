@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 import json
 import models
 import math
 # Create your views here.
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso
+from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso, Oficinas
 from datetime import date, datetime
 import qrencode
 
@@ -550,3 +551,29 @@ def qr(req):
             response.write(caracter)
     archivo.close()
     return response
+
+def geo(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+    return render(req, "geo.html")
+
+def oficinascercanas(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        oficinas = Oficinas.objects.filter()
+        oficinas_aceptadas = []
+        latitude = float(req.GET["latitude"])
+        longitude = float(req.GET["longitude"])
+        for oficina in oficinas:
+            dist = distancia(latitude,longitude, float(oficina.latitud), float(oficina.longitud))
+            if dist < 0.1:
+                oficinas_aceptadas.append({"latitud":float(oficina.latitud), "longitud": float(oficina.longitud),"direccion":unicode(oficina.direccion), "ciudad": unicode(oficina.ciudad), "nombre": unicode(oficina.nombre),"telefono":unicode(oficina.telefono)})
+        respuesta["oficinas"]= oficinas_aceptadas
+    return HttpResponse(json.dumps(respuesta)) 
+
+def distancia(latitud1,longitud1, latitud2,longitud2):
+    dist = math.sqrt((latitud1-latitud2)**2+(longitud1-longitud2)**2)
+    return dist
+    

@@ -56,5 +56,13 @@ class Ingreso(models.Model):
     tipoactividad = models.ForeignKey(Actividad)
     recargoequivalencia = models.DecimalField(max_digits = 9,decimal_places=2)
 
+class Oficinas(models.Model):
+    latitud = models.DecimalField(max_digits = 18,decimal_places=15)
+    longitud = models.DecimalField(max_digits = 18,decimal_places=15)
+    direccion = models.TextField()
+    ciudad = models.TextField()
+    nombre = models.TextField()
+    telefono = models.TextField()
+
 
 # Create your models here.
