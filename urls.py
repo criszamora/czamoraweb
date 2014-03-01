@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^input\/token$', 'mypfc.mipfc.views.token', name='token'),
     url(r'^ajax\/actividades$', 'mypfc.mipfc.views.actividades', name='actividades'),
     url(r'^ajax\/registrarse$', 'mypfc.mipfc.views.registrarse', name='registrarse'),
+    url(r'^ajax\/grupo$', 'mypfc.mipfc.views.grupo', name='grupo'),
     url(r'^ajax\/logout$', 'mypfc.mipfc.views.logout', name='logout'),
     url(r'^ajax\/prorrata$', 'mypfc.mipfc.views.prorrata', name='prorrata'),
     url(r'^ajax\/registrarprorrata$', 'mypfc.mipfc.views.registrarprorrata', name='registrarprorrata'),
@@ -26,6 +27,7 @@ urlpatterns = patterns('',
     url(r'^ajax\/cerrar$', 'mypfc.mipfc.views.cerrar', name='cerrar'),
     url(r'^ajax\/estadisticasanuales$', 'mypfc.mipfc.views.estadisticasanuales', name='estadisticasanuales'),
     url(r'^ajax\/estadisticastrimestrales$', 'mypfc.mipfc.views.estadisticastrimestrales', name='estadisticastrimestrales'),
+    url(r'^ajax\/oficinascercanas$', 'mypfc.mipfc.views.oficinascercanas', name='oficinascercanas'),
     
     
     #HTML
@@ -34,7 +36,10 @@ urlpatterns = patterns('',
     url(r'^gastosingresos$', 'mypfc.mipfc.views.gastosingresos', name='gastosingresos'),
     url(r'^liquidacion$', 'mypfc.mipfc.views.liquidacion', name='liquidacion'),
     url(r'^ayuda$', 'mypfc.mipfc.views.ayuda', name='ayuda'),
-    url(r'^estadisticas$', 'mypfc.mipfc.views.estadisticas', name='estadisticas')
+    url(r'^estadisticas$', 'mypfc.mipfc.views.estadisticas', name='estadisticas'),
+    url(r'^qr$', 'mypfc.mipfc.views.qr', name='qr'),
+    url(r'^geo$', 'mypfc.mipfc.views.geo', name='geo'),
+    
     
     
     

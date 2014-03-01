@@ -5,7 +5,7 @@ import math
 # Create your views here.
 from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
-from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso, Oficinas
+from mipfc.models import Actividad, Usuario, Prorrata, Trimestre, ActividadUsuario, Gasto, Ingreso, Oficinas, Grupo
 from datetime import date, datetime
 import qrencode
 
@@ -58,6 +58,19 @@ def actividades(req):
     "error":errores["ok"]}
     for i in act:
         respuesta["listaactividades"].append({"id":i.pk,"actividad":i.actividad})
+    return HttpResponse(json.dumps(respuesta))
+
+def grupo(req):
+    grupos = Grupo.objects.all()
+    if (len(grupos)==0):
+        for i in ["Medicina", "Transporte", "Servicios"]:
+            newGrupo = Grupo(nombre = i)
+            newGrupo.save()
+        return grupo(req)
+    respuesta = {"listagrupos":[],
+    "error":errores["ok"]}
+    for i in grupos:
+        respuesta["listagrupos"].append({"id":i.pk,"nombre":i.nombre})
     return HttpResponse(json.dumps(respuesta))
 
 def registrarse(req):
