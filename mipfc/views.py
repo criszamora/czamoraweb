@@ -46,18 +46,21 @@ def token(req):
     return render(req, "token.html")
 
 def actividades(req):
-    
-    act = Actividad.objects.all()
+    act=Actividad.objects.all()
     if (len(act)==0):
-        for i in [("comercio", 21), ("transporte",21), ("servicios",21)]:
-            newActividad = Actividad(actividad = i[0], iva = i[1])
+        for i in [("Medicina estética", 21, Grupo.objects.get(pk=1) ), ("Medicina general", 0, Grupo.objects.get(pk=1) ),
+        ("Transporte de pasajeros", 21, Grupo.objects.get(pk=2)), ("Transporte de enfermos", 0, Grupo.objects.get(pk=2)),
+        ("Alquiler de vivienda", 0, Grupo.objects.get(pk=3)), ("Alquiler de negocios", 21, Grupo.objects.get(pk=3))]:
+            newActividad = Actividad(actividad = i[0], iva = i[1], grupo = i[2])
             newActividad.save()
-        Actividad(actividad = "otros", pk=-1, iva = 0).save()
         return actividades(req)
+    elgrupo = Grupo.objects.get(pk=req.GET["grupo"])
+    act = Actividad.objects.filter(grupo = elgrupo)
+    
     respuesta = {"listaactividades":[],
     "error":errores["ok"]}
     for i in act:
-        respuesta["listaactividades"].append({"id":i.pk,"actividad":i.actividad})
+        respuesta["listaactividades"].append({"id":i.pk,"actividad":i.actividad,"grupo":i.grupo.pk})
     return HttpResponse(json.dumps(respuesta))
 
 def grupo(req):

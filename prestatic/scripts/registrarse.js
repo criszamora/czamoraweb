@@ -94,3 +94,35 @@ jQuery().ready(function(){
     	});
      	
 	});
+        
+         jQuery(function() {
+
+             
+             
+             peticion("grupo",function(respuesta){
+                 for (var i = 0; i< respuesta.listagrupos.length; i++){
+                     jQuery("#sortable1").append('<li class="ui-state-default"><input type="hidden" name="grupo" value="'+respuesta.listagrupos[i].id+'">'+respuesta.listagrupos[i].nombre+'</li>')
+                     
+                 }
+                     jQuery( "#sortable1" ).sortable({
+    connectWith: ".connectedSortable",
+    receive:function(event, ui){
+     jQuery(".tipoactividades span :hidden[name=grupo][value="+ui.item.find(":hidden").val()+"]").closest("span").fadeOut(function(){jQuery(this).remove()})   
+    }
+    }).disableSelection();
+     jQuery( "#sortable2" ).sortable({
+    connectWith: ".connectedSortable",
+    receive:function(event, ui){
+        peticion("actividades", function(respuesta){
+            for (var i = 0; i < respuesta.listaactividades.length;i++){
+                jQuery(".tipoactividades").append('<span><input type="checkbox" name="tipoactividad" value="'+respuesta.listaactividades[i].id+'"> <input type="hidden" name="grupo" value="'+respuesta.listaactividades[i].grupo+'">'+respuesta.listaactividades[i].actividad+'</span>')
+            }
+            
+        },{datos:{grupo:ui.item.find(":hidden").val()}})
+        
+    }
+    }).disableSelection();
+                 
+             });
+
+    });
