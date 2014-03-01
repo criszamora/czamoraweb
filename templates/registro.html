@@ -17,6 +17,7 @@
 <link href="{{ STATIC_PREFIX }}/style/slider.css" rel="stylesheet" type="text/css">
 <link href="{{ STATIC_PREFIX }}/style/photoswipe.css" rel="stylesheet" type="text/css">
 <link href="{{ STATIC_PREFIX }}/style/touchTouch.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/jquery-ui-1.10.4.custom.css" rel="stylesheet" type="text/css">
 
 <script src="{{ STATIC_PREFIX }}jquery-1.10.2.js"></script>
 
@@ -29,13 +30,20 @@
 <script src="{{ STATIC_PREFIX }}/scripts/touchTouch.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/retina.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/custom.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/jquery-ui-1.10.4.custom.js"></script>
+ <style>
+.contenedor_lista {  margin: 0; padding: 0 0 2.5em; float: left; margin-right: 10px; }
+#sortable1, #sortable2  { list-style-type: none; background: none repeat scroll 0 0 #EEEEEE; margin: 0 10px 0 0;
+    padding: 5px; width: 340px; min-height: 50px}
+#sortable1 li, #sortable2 li { margin: 0 5px 5px 5px; padding: 5px; font-size: 1.2em; width: 320px; }
+</style>
 
 </head>
 
 <body>
 
 <div class="header">
-	<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">
+	<!--<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">-->
     <a href="#" class="deploy-navigation"></a>
     <a href="#" class="hide-navigation"></a>
 	<div class="clear"></div>
@@ -69,11 +77,27 @@
 			          <label for="Body" class="etiqueta">Confirmación contraseña <span class="red">*</span></label>
 					  <input type="password" name="passconfirm" id="passconfirm" value="" tabindex="1" class="obligatorio text-input" />
 					  <label for="Body" class="etiqueta">Tipo de actividad <span class="red">*</span></label>
-					  <div class="tipoactividades"></div>
+                                          
+                                          <div class="contenedor_lista">
+                                              <h3>Actividades disponibles</h3>
+                                          <ul id="sortable1" class="connectedSortable">
+
+                                           </ul>
+                                              </div>
+                                          <div class="contenedor_lista">    
+                                              <h3>Actividades seleccionadas</h3>
+<ul id="sortable2" class="connectedSortable">
+
+</ul>
+                                              </div> 
+                                          
+                                          <div class="tipoactividades"><input type="checkbox" name ="tipoactividad" value="-1"/>Otros</div>
 					  <div style="display:none" class = "otra_actividad">
 					 <label for="Body">Nombre actividad <span class="red">*</span></label>
 					 <input type="text" name="nuevaactividad" id="nuevaactividad" value="" tabindex="1" class="text-input"  />
-				    <select name="tipoiva" class="desplegable">
+                                        <select name="grupo" class=""desplegable">
+                                          </select><input type="text" name="nuevogrupo" value="" style="display:none" >
+                                         <select name="tipoiva" class="desplegable">
 					<option value="4">4%</option>
 					<option value="10">10%</option>
 					<option value="21">21%</option>
