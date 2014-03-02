@@ -39,8 +39,17 @@ function pedirtoken(funcionrespuesta){
 	peticion("token", funcionrespuesta, {tipo:"text"});
 }
 
+function pedirnombre(){
+    peticion("nombreusuario", function(respuesta){
+        if (respuesta.error == errores.ok){
+            jQuery(".nombre-usuario").text("Hola, "+respuesta.nombre+" "+respuesta.apellidos)
+        }
+        
+    });
+}
+
 jQuery().ready(function(){ 
-	
+	pedirnombre()
  
      	
      	//Recogemos el token
