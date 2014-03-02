@@ -54,8 +54,9 @@ def actividades(req):
             newActividad = Actividad(actividad = i[0], iva = i[1], grupo = i[2])
             newActividad.save()
         return actividades(req)
-    elgrupo = Grupo.objects.get(pk=req.GET["grupo"])
-    act = Actividad.objects.filter(grupo = elgrupo)
+    if "grupo" in req.GET:
+        elgrupo = Grupo.objects.get(pk=req.GET["grupo"])
+        act = Actividad.objects.filter(grupo = elgrupo)
     
     respuesta = {"listaactividades":[],
     "error":errores["ok"]}
