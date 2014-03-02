@@ -95,7 +95,12 @@ def registrarse(req):
                 actividad = Actividad.objects.get(pk=act)
             else:
                 print("guardadno nueva actividad")
-                actividad = Actividad( actividad=req.POST["nuevaactividad"], iva= req.POST["tipoiva"])
+                if (req.POST["grupo"]) == "-1":
+                    grupo = Grupo(nombre = req.POST["nuevogrupo"])
+                    grupo.save()
+                else:
+                    grupo = Grupo.objects.get(pk=int(req.POST["grupo"]))
+                actividad = Actividad( actividad=req.POST["nuevaactividad"], iva= req.POST["tipoiva"], grupo = grupo)
                 actividad.save()
             usuact = ActividadUsuario(usuario = usuario, tipoactividad = actividad)
             usuact.save()

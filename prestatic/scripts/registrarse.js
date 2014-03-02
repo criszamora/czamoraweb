@@ -20,6 +20,21 @@ jQuery().ready(function() {
             alert("Hay que seleccionar al menos un tipo de actividad");
             return;
         }
+        
+        if (jQuery("[name=tipoactividad][value=-1]").attr("checked")){
+            if (jQuery("[name=nuevaactividad]").val() == ""){
+                alert("Hay que introducir una nueva actividad");
+                return;
+            }
+            if (jQuery("select[name=grupo]").val() == "-1"){
+                if (jQuery("[name=nuevogrupo]").val() == ""){
+                    alert("Tiene que seleccionar un grupo");
+                    return;
+                }
+            }
+        }
+        
+        
         var patroncorreo = /^[a-zA-Z0-9_\.]+@[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)+$/
         var email = jQuery("[name=email]").val();
         if (email.match(patroncorreo) == null) {
@@ -51,7 +66,7 @@ jQuery().ready(function() {
                 function(respuesta) {
                     if (respuesta.error == errores.ok) {
                         alert("Usuario registrado con éxito");
-                        document.location.href = "menu.html";
+                        document.location.href = "/";
                     } else if (respuesta.error == errores.datosduplicados) {
                         alert("Email ya existente");
                     } else {
