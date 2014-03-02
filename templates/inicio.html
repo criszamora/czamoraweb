@@ -1,68 +1,83 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}/jquery-1.10.2.js"></script>
-        <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
-        <script type = text/javascript>
-  
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
+<link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_PREFIX }}/images/splash/splash-icon.png"> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen.png" media="screen and (max-device-width: 320px)" /> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen@2x.png" media="(max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2)" /> 
+<link rel="apple-touch-startup-image" href="{{ STATIC_PREFIX }}/images/splash/splash-screen@3x.png" sizes="640x1096">
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>IVApp</title>
+<link href="{{ STATIC_PREFIX }}/style/style.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/color.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/buttons.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/retina.css" media="only screen and (-webkit-min-device-pixel-ratio: 2)" rel="stylesheet" />
+<link href="{{ STATIC_PREFIX }}/style/slider.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/photoswipe.css" rel="stylesheet" type="text/css">
+<link href="{{ STATIC_PREFIX }}/style/touchTouch.css" rel="stylesheet" type="text/css">
+<script src="{{ STATIC_PREFIX }}jquery-1.10.2.js"></script>
+<script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
+<script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/inicio.js" type="text/javascript"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/swipe.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/klass.min.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/photoswipe.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/touchTouch.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/retina.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/custom.js"></script>
+<script src="{{ STATIC_PREFIX }}/scripts/highcharts.js"></script>
 
-	function Init() {
-    	// Ahora es seguro utilizar la API PhoneGap
-    	jQuery("input[name=registrarse]").click(function(){
-    	document.location.href="registro";    	
-    	});
-    	
-    	jQuery("input[name=enviar]").click(function(){
-    		
-    		peticion('login', function(respuesta){
-    		if (respuesta.error==0){
-    			document.location.reload();
-    		}else{
-    			alert("login error");
-    		}
-    		},{datos:jQuery('#formulario').serialize(), metodo:"post"});
-    	});
+</head>
+
+<body>
+
+<div class="header">
+	<!--<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">-->
+    <a href="#" class="deploy-navigation"></a>
+    <a href="#" class="hide-navigation"></a>
+	<div class="clear"></div>
+</div>
+
+<div class="deployed-navigation">
+    <a href="/ayuda" id="ico1" class="navigation-icon home"> Ayuda</a>
+</div>
+
+
+<div class="content">
+
+
+
     
-    	
+	<div class="decoration in-content"></div>
     
-    
-	}
-        
-        
-        jQuery(document).ready(Init);
-	</script>
-    </head>
-    <body>
-        <header>
-		<center><h1>IVApp</h1></center>
-		<div class="logo">
-    		<a href="index.html">
-    			<img src="images/logo.png" alt="logo by mobifreaks"/>
-    		</a>
-    	</div>   
-	</header>
+        <div class="container">
+                
+            <div class="contactForm" id="contactForm">
 	<FORM action="index1" method="post" id="formulario">
             {% csrf_token %}
     <P>
     <br>
-    <LABEL for="username">Nombre de usuario: </LABEL>
-              <INPUT type="text" id="username" name="usuario"><BR>
-    <LABEL for="pass">Contraseña: </LABEL>
-              <INPUT type="password" id="pass" name="password"><BR>
-    <center><INPUT type="button" name="enviar" value="Enviar"> <INPUT type="reset">
-    <input type="button" name="registrarse" value="registrarse">
+    <LABEL for="username" class="etiqueta">Nombre de usuario: </LABEL>
+              <INPUT type="text" id="username" name="usuario" class="text-input"><BR>
+    <LABEL for="pass" class="etiqueta">Contraseña: </LABEL>
+              <INPUT type="password" id="pass" name="password" class="text-input"><BR>
+    <center><INPUT type="button" name="enviar" value="Enviar" class="contactButton button black"> 
+    <input type="button" name="registrarse" value="registrarse" class="contactButton button black">
     </center>
     </P>
- </FORM>
-    </body>
+ </FORM> </div>
+        </div>
+
+
+</div>
+
+<div class="decoration"></div>
+
+<p class="center-text copyright">Copyright 2012. All rights reserved.</p>
+
+
+</body>
 </html>
+
