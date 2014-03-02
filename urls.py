@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^ajax\/estadisticasanuales$', 'mypfc.mipfc.views.estadisticasanuales', name='estadisticasanuales'),
     url(r'^ajax\/estadisticastrimestrales$', 'mypfc.mipfc.views.estadisticastrimestrales', name='estadisticastrimestrales'),
     url(r'^ajax\/oficinascercanas$', 'mypfc.mipfc.views.oficinascercanas', name='oficinascercanas'),
+    url(r'^ajax\/nombreusuario$', 'mypfc.mipfc.views.nombreusuario', name='nombreusuario'),
     
     
     #HTML

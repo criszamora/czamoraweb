@@ -1197,4 +1197,9 @@ label#message_label{
         border-width:1px;
     
 }
+.nombre-usuario{
+    float:right; 
+    padding-right:60px; 
+    margin-top:-35px
+}
 

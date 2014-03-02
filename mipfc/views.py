@@ -597,4 +597,12 @@ def oficinascercanas(req):
 def distancia(latitud1,longitud1, latitud2,longitud2):
     dist = math.sqrt((latitud1-latitud2)**2+(longitud1-longitud2)**2)
     return dist
+
+def nombreusuario(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        respuesta["nombre"]=str(usuario.nombre)
+        respuesta["apellidos"]=str(usuario.apellidos)
+    return HttpResponse(json.dumps(respuesta))
     
