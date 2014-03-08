@@ -54,4 +54,29 @@ jQuery().ready(function(){
         }});
         
     });
+    
+    peticion("actividadusuario",function(respuesta){
+     		if(respuesta.error == errores.ok){
+                    jQuery("#tablaactividades tbody").empty()
+     			for (var i = 0; i < respuesta.actividades.length; i++){
+                            var actividad = respuesta.actividades[i];
+                            var input = "<tr><td>"+actividad.nombre+"</td><td>"+actividad.iva+'</td><td><span class="eliminar-actividad" id_actividad="'+actividad.id+'"> X </span></td></tr>'
+                                    
+                        
+                            jQuery("#tablaactividades tbody").append(input);
+     			}
+                        jQuery(".eliminar-actividad").click(function(){
+                            var yo = jQuery(this);
+                           peticion("eliminaractividad", function(respuesta){
+                               yo.closest("tr").fadeOut("slow", function(){
+                                   jQuery(this).remove()
+                               })
+                               
+                           }, {metodo: "post", datos:{
+                                   id: yo.attr("id_actividad"),
+                                   csrfmiddlewaretoken: jQuery("[name=csrfmiddlewaretoken]").val()  
+                           }}) 
+                        });
+     		}
+            });
 });

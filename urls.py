@@ -31,6 +31,7 @@ urlpatterns = patterns('',
     url(r'^ajax\/nombreusuario$', 'mypfc.mipfc.views.nombreusuario', name='nombreusuario'),
     url(r'^ajax\/cambiarnombre$', 'mypfc.mipfc.views.cambiarnombre', name='cambiarnombre'),
     url(r'^ajax\/cambiarpass$', 'mypfc.mipfc.views.cambiarpass', name='cambiarpass'),
+    url(r'^ajax\/eliminaractividad$', 'mypfc.mipfc.views.eliminaractividad', name='eliminaractividad'),
     
     
     #HTML

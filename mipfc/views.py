@@ -260,7 +260,7 @@ def actividadusuario(req):
         actividadusuario = ActividadUsuario.objects.filter(usuario = usuario)
         for actusu in actividadusuario:
             act = actusu.tipoactividad
-            respuesta["actividades"].append({"id":act.pk, "nombre":act.actividad})
+            respuesta["actividades"].append({"id":act.pk, "nombre":act.actividad, "iva":act.iva})
        
     return HttpResponse(json.dumps(respuesta))
 
@@ -634,6 +634,16 @@ def cambiarpass(req):
         usuario.save()
         req.session["usuario"] = Usuario.objects.get(pk=usuario.pk)
     return HttpResponse(json.dumps(respuesta))
+
+def eliminaractividad(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        actividad = Actividad.objects.get(pk=int(req.POST["id"]))
+        actividadborrar = ActividadUsuario.objects.get(usuario = usuario,tipoactividad = actividad )
+        actividadborrar.delete()
+    return HttpResponse(json.dumps(respuesta))
+        
     
 
     
