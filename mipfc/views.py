@@ -606,4 +606,34 @@ def nombreusuario(req):
         respuesta["nombre"]=str(usuario.nombre)
         respuesta["apellidos"]=str(usuario.apellidos)
     return HttpResponse(json.dumps(respuesta))
+
+
+def configuracion(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        return render(req, "configuracion.html", {"nombre":usuario.nombre, "apellidos":usuario.apellidos})
+    return render(req, "inicio.html")
+
+def cambiarnombre(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        usuario.nombre = req.POST["name"]
+        usuario.apellidos = req.POST["apellidos"]
+        usuario.save()
+        req.session["usuario"] = Usuario.objects.get(pk=usuario.pk)
+    return HttpResponse(json.dumps(respuesta))
+
+
+def cambiarpass(req):
+    respuesta = respuestainicial(req)
+    if respuesta["error"] == 0:
+        usuario = req.session["usuario"]
+        usuario.contrasena = req.POST["pass"]
+        usuario.save()
+        req.session["usuario"] = Usuario.objects.get(pk=usuario.pk)
+    return HttpResponse(json.dumps(respuesta))
+    
+
     

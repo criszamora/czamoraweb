@@ -55,7 +55,7 @@ jQuery().ready(function(){
      	//Recogemos el token
      	
     	
-    	jQuery("#ico6").click(function(evento){
+    	jQuery("#ico8").click(function(evento){
         	evento.preventDefault();
         	peticion("logout", function(respuesta){
         		if (respuesta.error == errores.ok){

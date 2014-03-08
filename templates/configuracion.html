@@ -19,32 +19,32 @@
 <link href="{{ STATIC_PREFIX }}/style/touchTouch.css" rel="stylesheet" type="text/css">
 <script src="{{ STATIC_PREFIX }}jquery-1.10.2.js"></script>
 <script type="text/javascript" src="{{ STATIC_PREFIX }}/funciones.js"></script>
-<script type="text/javascript" src="{{ STATIC_PREFIX }}/scripts/sprintf.js"></script>
 <script type="text/javascript" src="{{ STATIC_PREFIX }}/errores.js"></script>
-<script src="{{ STATIC_PREFIX }}/scripts/liquidacion.js" type="text/javascript"></script>
+
 <script src="{{ STATIC_PREFIX }}/scripts/swipe.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/klass.min.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/photoswipe.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/touchTouch.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/retina.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/custom.js"></script>
-
+<script src="{{ STATIC_PREFIX }}/scripts/configuracion.js" type="text/javascript"></script>
 </head>
 
 <body>
-    {% csrf_token %}
 
 <div class="header">
 	<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">
-    <a href="#" class="deploy-navigation"></a>
+       
+        <a href="#" class="deploy-navigation"></a>
     <a href="#" class="hide-navigation"></a>
 	<div class="clear"></div>
-        <span class="nombre-usuario" ></span>
+         <span class="nombre-usuario" ></span>
 </div>
 
 <div class="deployed-navigation">
-    <a href="/" id="ico1" class="navigation-icon home"> INICIO</a>
-    <a href="logout.html" id="ico8" class="navigation-icon home"> Salir</a>
+    <a href="/" id="ico1" class="navigation-icon home">Inicio</a>
+    <a href="ayuda" id="ico5" class="navigation-icon home"> Ayuda</a> 
+    <a href="logout" id="ico8" class="navigation-icon home">Salir</a>
 </div>
 
 
@@ -54,22 +54,25 @@
 
     
 	<div class="decoration in-content"></div>
+        
+        
     
         <div class="container">
-                
-            <div class="contactForm" id="contactForm">
-              <form id="formulario">
-                   {% csrf_token %}
-                  <fieldset>
-                      <p>Año <span class="anio"></span></p>
-                      <p>Trimestre <span class="trimestre"></span></p>
-                      <div class="gastoseingresos"></div>
-                      <div class="resultado">Resultado: <span class="resultado_operacion"></span></div>
-                      <p>Liquidacion<span class="liquidacion"></span></p>
+            <form>
+                {% csrf_token %}
+            <label for="name" class="etiqueta">Nombre *</label>
+                      <input type="text" name="name" id="name" value="{{ nombre }}" tabindex="1" size="30" class="obligatorio text-input" />
+                      <label for="apellidos" class="etiqueta">Apellidos <span class="red">*</span></label>
+                      <input type="text" name="apellidos" id="apellidos" value="{{ apellidos}}" tabindex="1" class="obligatorio text-input" />
+                      <input type="button" name="cambiar" value="Actualizar Nombre" class="contactButton button black">
                       
-                  </fieldset>
-              </form>
-          </div>
+                      <label for="pass" class="etiqueta">Contraseña <span class="red">*</span></label>
+			          <input type="password" name="pass" id="pass" value="" tabindex="1" class="obligatorio text-input"/>
+			          <label for="Body" class="etiqueta">Confirmación contraseña <span class="red">*</span></label>
+					  <input type="password" name="passconfirm" id="passconfirm" value="" tabindex="1" class="obligatorio text-input" />
+                                          <input type="button" name="cambiarpass" value="Actualizar Contraseña" class="contactButton button black">
+
+         </form>
         </div>
 	</div>
 
@@ -82,4 +85,21 @@
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
