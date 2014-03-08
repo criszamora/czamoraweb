@@ -9,7 +9,7 @@ jQuery().ready(function(){
    if (fecha.getMonth()== 0){
        trimestre = 4;   
    }else{
-       trimestre = (fecha.getMonth()-1)/3 +1;
+       trimestre = Math.floor((fecha.getMonth()-1)/3 )+1; 
    }
    //trimestre=1,2,3,4
    jQuery(".trimestre").text(trimestre)

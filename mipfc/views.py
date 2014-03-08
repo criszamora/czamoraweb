@@ -26,7 +26,7 @@ def registro(req):
 
 
 def login(req):
-    #todo comprobar los campos enviados
+    #logea al usuario
     usuario = Usuario.objects.filter(email = req.POST["usuario"], contrasena = req.POST["password"])
     if len(usuario) > 0:
         respuesta = {"error":errores["ok"]}
@@ -374,10 +374,10 @@ def mostrarliquidacion(gastosingresos, prorrata):
     gasto = 0.0
     ingreso = 0.0
     for gastoingreso in gastosingresos:
-        gasto+= gastoingreso["gasto"]*(float(gastoingreso["iva"])/100.0)
+        gasto+= gastoingreso["gasto"]*(float(gastoingreso["iva"])/100.0)*float(prorrata)/100.0 
         ingresoconre= gastoingreso["totalrecargoequivalencia"]* (float(obtenerRecargoequivalencia(gastoingreso["iva"])/100.0))
-        ingreso+=gastoingreso["ingreso"]*(float(gastoingreso["iva"])/100)*float(prorrata)/100.0 + ingresoconre
-    return gasto-ingreso
+        ingreso+=gastoingreso["ingreso"]*(float(gastoingreso["iva"])/100)+ ingresoconre
+    return round(ingreso-gasto,2)
         
     
 
