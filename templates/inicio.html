@@ -29,6 +29,8 @@
 <script src="{{ STATIC_PREFIX }}/scripts/custom.js"></script>
 <script src="{{ STATIC_PREFIX }}/scripts/highcharts.js"></script>
 
+
+
 </head>
 
 <body>
@@ -60,11 +62,16 @@
             {% csrf_token %}
     <P>
     <br>
+    <center>
+        <h2>Bienvenido a IVApp</h2>
+    <div>
     <LABEL for="username" class="etiqueta">Nombre de usuario: </LABEL>
               <INPUT type="text" id="username" name="usuario" class="text-input"><BR>
     <LABEL for="pass" class="etiqueta">Contraseña: </LABEL>
               <INPUT type="password" id="pass" name="password" class="text-input"><BR>
-    <center><INPUT type="button" name="enviar" value="Enviar" class="contactButton button black"> 
+    </div>
+
+    <INPUT type="button" name="enviar" value="Enviar" class="contactButton button black"> 
     <input type="button" name="registrarse" value="registrarse" class="contactButton button black">
     </center>
     </P>
@@ -76,7 +83,7 @@
 
 <div class="decoration"></div>
 
-<p class="center-text copyright">Copyright 2012. All rights reserved.</p>
+<p class="center-text copyright">Copyright 2014 Cristina Zamora. All rights reserved.</p>
 
 
 </body>
