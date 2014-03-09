@@ -56,6 +56,51 @@ jQuery().ready(function(){
     });
     refrescaractividades();
     
+    //Mostramos u ocultamos la nueva actividad
+            jQuery("[name=tipoactividad][value=-1]").click(function() {
+
+                if (jQuery(this).is(":checked")) {
+
+                    jQuery(".otra_actividad").show();
+                } else {
+                    jQuery(".otra_actividad").hide();
+                }
+            }).attr("checked", false);
+            
+            jQuery("select[name=grupo]").change(function(){
+        if (jQuery(this).val()=="-1") {
+
+                    jQuery("input[name=nuevogrupo]").show();
+                } else {
+                    jQuery("input[name=nuevogrupo]").hide();
+                }
+    });
+    
+    jQuery("[name=activnueva]").click(function(){
+        if (jQuery("[name=nuevaactividad]").val() == ""){
+            alert("Hay que rellenar la actividad")
+            return;
+        }
+        
+        if (jQuery("[name=grupo]").val() == "-1"){
+            if (jQuery("[name=nuevogrupo]").val() == ""){
+                alert("Hay que rellenar un grupo")
+                return;
+            }
+        }
+        peticion ("agregarnuevaactividad", function(respuesta){
+            document.location.reload();
+        }, {metodo:"post", datos:{
+                nombreactividad: jQuery("[name=nuevaactividad]").val(),
+                grupo: jQuery("[name=grupo]").val(),
+                nombregrupo: jQuery("[name=nuevogrupo]").val(),
+                iva: jQuery("[name=tipoiva]").val(),
+                csrfmiddlewaretoken: jQuery("[name=csrfmiddlewaretoken]").val()
+        }})
+    });
+    
+jQuery("[name=nuevaactividad], [name=nuevogrupo]").val("");
+    
 });
 
 
