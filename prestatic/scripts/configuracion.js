@@ -54,7 +54,13 @@ jQuery().ready(function(){
         }});
         
     });
+    refrescaractividades();
     
+});
+
+
+
+function refrescaractividades(){
     peticion("actividadusuario",function(respuesta){
      		if(respuesta.error == errores.ok){
                     jQuery("#tablaactividades tbody").empty()
@@ -67,6 +73,7 @@ jQuery().ready(function(){
      			}
                         jQuery(".eliminar-actividad").click(function(){
                             var yo = jQuery(this);
+                            if (confirm("¿Está seguro que quiere eliminar esta actividad?")){
                            peticion("eliminaractividad", function(respuesta){
                                yo.closest("tr").fadeOut("slow", function(){
                                    jQuery(this).remove()
@@ -76,7 +83,65 @@ jQuery().ready(function(){
                                    id: yo.attr("id_actividad"),
                                    csrfmiddlewaretoken: jQuery("[name=csrfmiddlewaretoken]").val()  
                            }}) 
+                   }
                         });
      		}
             });
+}
+
+jQuery(function() {
+
+
+
+    peticion("grupo", function(respuesta) {
+        for (var i = 0; i < respuesta.listagrupos.length; i++) {
+            jQuery("#sortable1").append('<li class="ui-state-default"><input type="hidden" name="grupoactividad" value="' + respuesta.listagrupos[i].id + '">' + respuesta.listagrupos[i].nombre + '</li>')
+
+            jQuery("select[name=grupo]").append('<option value="'+respuesta.listagrupos[i].id +'">'+respuesta.listagrupos[i].nombre+"</option>")
+        }
+        jQuery("select[name=grupo]").append('<option value="-1">Nuevo Grupo</option>')
+        jQuery("#sortable1").sortable({
+            connectWith: ".connectedSortable",
+            receive: function(event, ui) {
+                jQuery(".tipoactividades span :hidden[name=grupoactividad][value=" + ui.item.find(":hidden").val() + "]").closest("span").fadeOut(function() {
+                    jQuery(this).remove()
+                })
+            }
+        }).disableSelection();
+        jQuery("#sortable2").sortable({
+            connectWith: ".connectedSortable",
+            receive: function(event, ui) {
+                peticion("actividades", function(respuesta) {
+                    for (var i = 0; i < respuesta.listaactividades.length; i++) {
+                        var existe = false;
+                        if (jQuery("#tablaactividades tbody tr .eliminar-actividad[id_actividad="+respuesta.listaactividades[i].id+"]").size()>0){
+                            continue;
+                        }
+                        
+                        
+                        jQuery(".tipoactividades").append('<span><input type="checkbox" name="tipoactividad" value="' + respuesta.listaactividades[i].id + '" class="pendiente-evento"> <input type="hidden" name="grupoactividad" value="' + respuesta.listaactividades[i].grupo + '">' + respuesta.listaactividades[i].actividad + '</span>')
+                    }
+                    jQuery(".pendiente-evento").click(function(){
+                        var yo = jQuery(this)
+                        peticion("agregaractividad", function(respuesta){
+                            yo.closest("span").fadeOut("slow", function(){
+                                jQuery(this).remove()
+                            });
+                            refrescaractividades();
+                            
+                        }, {metodo:"post", datos:{
+                                id:yo.val(),
+                                csrfmiddlewaretoken: jQuery("[name=csrfmiddlewaretoken]").val()
+                                
+                            }       
+                        })
+                    }).removeClass("pendiente-evento"); //elimina la clase que ya hemos marcado antes
+
+                }, {datos: {grupo: ui.item.find(":hidden").val()}})
+
+            }
+        }).disableSelection();
+
+    });
+
 });
