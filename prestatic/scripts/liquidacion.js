@@ -15,7 +15,15 @@ jQuery().ready(function(){
    jQuery(".trimestre").text(trimestre)
    
    funcionmostrarliquidacion = function(respuesta){
-       jQuery(".liquidacion").text(sprintf("%.2f",respuesta.liquidacion))
+       var etiqueta = '<span style="color:';
+       if (respuesta.liquidacion < 0){
+           etiqueta+="red";
+       }else{
+           etiqueta+="green";
+       }
+       etiqueta+='">'+sprintf("%.2f",respuesta.liquidacion)+"</span>"
+       
+       jQuery(".liquidacion").html(etiqueta)
        
    }
    
