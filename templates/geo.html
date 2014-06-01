@@ -2,6 +2,7 @@
 {% load static %}
 {% get_static_prefix as STATIC_PREFIX %}
 <head>
+<link rel="shortcut icon" type="image/ico" href="/home/czamora/pfc/mypfc/prestatic/images/log.ico"/>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0"/>
 <link rel="apple-touch-icon" sizes="114x114" href="{{ STATIC_PREFIX }}/images/splash/splash-icon.png"> 
@@ -35,7 +36,7 @@
 <body>
 
 <div class="header">
-	<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">
+	<img src="{{ STATIC_PREFIX }}/images/log.png" alt="img" class="logo replace-2x">
     <a href="#" class="deploy-navigation"></a>
     <a href="#" class="hide-navigation"></a>
 	<div class="clear"></div>
@@ -43,35 +44,22 @@
 </div>
 
 <div class="deployed-navigation">
-    <a href="/" id="ico1" class="navigation-icon home"> INICIO</a>
+    <a href="/" id="ico1" class="navigation-icon home">Volver al Menú de Inicio</a>
+    <a href="ayuda" id="ico5" class="navigation-icon speach"> Ayuda</a> 
+    <a href="logout" id="ico8" class="navigation-icon arrow-left">Salir</a>
 </div>
-
-
+<div class="decoration in-content"></div>
+<center><font size="5"><B>Oficinas de la AEAT cercanas</B></font></center><br>
 <div class="content">
 
-
-
-    
-    <div class="decoration in-content">
-        
-        <div id="googleMap" style="width:500px;height:380px;"></div>
-        
-    </div>
-    
-        <div class="container">
-            
-
-         
-        </div>
-	</div>
-
+         <div class="decoration in-content"></div>
+     <center><div id="googleMap" style="width:1000px;height:440px;"></div></center>
+	<div class="container"></div>
 </div>
 
+
 <div class="decoration"></div>
-
-<p class="center-text copyright">Copyright 2012. All rights reserved.</p>
-
-
+<p class="center-text copyright">Copyright &copy 2014 Cristina Zamora. All rights reserved.</p>
 </body>
 </html>
 
