@@ -1,7 +1,7 @@
 jQuery().ready(function(){
     jQuery("select[name=gastosingresos]").change(function(){
         jQuery("#regionQR").hide()
-        jQuery("#tipoactividad").empty();
+        jQuery("#tabla_actividad").empty();
         if (jQuery(this).val()=="0"){
             jQuery("label[for=gasto]").text("Gasto"); 
             jQuery("label[for=recargoequivalencia]").text("Adquisición intracomunitaria")
@@ -11,13 +11,28 @@ jQuery().ready(function(){
             //Descargamos las actividades
             peticion("actividades",function(respuesta){
      		if(respuesta.error == errores.ok){
+                    var input="";
+                    var column=0;
      			for (var i = 0; i < respuesta.listaactividades.length; i++){
                             if (respuesta.listaactividades[i].id==-1){
                                 continue;
                             }
-     				var input = "<span class=\"checkbox_tipoactividad\"><input value=\""+respuesta.listaactividades[i].id+"\" name=\"tipoactividad\" type=\"radio\" >"+respuesta.listaactividades[i].actividad;
-     				jQuery("div#tipoactividad").append(input);
+     				
+                                if (column%3==0){
+                                    input+="<tr>";
+                                }
+                                     input += "<td><span class=\"checkbox_tipoactividad\"><input value=\""+respuesta.listaactividades[i].id+"\" name=\"tipoactividad\" type=\"radio\" >"+respuesta.listaactividades[i].actividad+"<td>";
+     				if (column%3==2){
+                                    input+="</tr>"
+                                }
+                                column++;
+                        
      			}
+                        if (column%3 != 0){
+                            input+="</tr>"
+                        }
+                        jQuery("#tabla_actividad").append(input);
+                        
      		}
             });
         }else{
@@ -26,11 +41,23 @@ jQuery().ready(function(){
              jQuery("#casillaextra").attr("name","recargoequivalencia")
              jQuery("#formulario").attr("action", "ingreso")
              peticion("actividadusuario",function(respuesta){
+                 var input="";
+                    var column=0;
      		if(respuesta.error == errores.ok){
      			for (var i = 0; i < respuesta.actividades.length; i++){
-                            var input = "<span class=\"checkbox_tipoactividad\"><input value=\""+respuesta.actividades[i].id+"\" name=\"tipoactividad\" type=\"radio\" >"+respuesta.actividades[i].nombre;
-                            jQuery("div#tipoactividad").append(input);
+                            if (column%3==0){
+                                    input+="<tr>";
+                                }
+                            input += "<td><span class=\"checkbox_tipoactividad\"><input value=\""+respuesta.actividades[i].id+"\" name=\"tipoactividad\" type=\"radio\" >"+respuesta.actividades[i].nombre+"</td>";
+                            if (column%3==2){
+                                    input+="</tr>"
+                                }
+                                column++;
      			}
+                         if (column%3 != 0){
+                            input+="</tr>"
+                        }
+                        jQuery("#tabla_actividad").append(input);
      		}
             });
         }

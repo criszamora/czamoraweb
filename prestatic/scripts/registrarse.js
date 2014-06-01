@@ -132,7 +132,7 @@ jQuery(function() {
             receive: function(event, ui) {
                 peticion("actividades", function(respuesta) {
                     for (var i = 0; i < respuesta.listaactividades.length; i++) {
-                        jQuery(".tipoactividades").append('<span><input type="checkbox" name="tipoactividad" value="' + respuesta.listaactividades[i].id + '"> <input type="hidden" name="grupoactividad" value="' + respuesta.listaactividades[i].grupo + '">' + respuesta.listaactividades[i].actividad + '</span>')
+                        jQuery(".tipoactividades").append('<p>  </p><span><input type="checkbox" name="tipoactividad" value="' + respuesta.listaactividades[i].id + ' "> <input type="hidden" name="grupoactividad" value="' + respuesta.listaactividades[i].grupo + '">' + respuesta.listaactividades[i].actividad +'</span>')
                     }
 
                 }, {datos: {grupo: ui.item.find(":hidden").val()}})

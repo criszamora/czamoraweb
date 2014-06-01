@@ -35,7 +35,8 @@
 <body>
 
 <div class="header">
-	<img src="{{ STATIC_PREFIX }}/images/logo.png" alt="img" class="logo replace-2x" width="91">
+	<!--<img src="{{ STATIC_PREFIX }}/images/log.png" alt="img"  width="91">-->
+	<img src="{{ STATIC_PREFIX }}/images/log.png">
     <a href="#" class="deploy-navigation"></a>
     <a href="#" class="hide-navigation"></a>
 	<div class="clear"></div>
@@ -43,15 +44,13 @@
 </div>
 
 <div class="deployed-navigation">
-    <a href="/" id="ico1" class="navigation-icon home"> INICIO</a>
+    <a href="/" id="ico1" class="navigation-icon home">Volver al Menú de Inicio</a>
+    <a href="ayuda" id="ico5" class="navigation-icon speach"> Ayuda</a> 
+    <a href="logout" id="ico8" class="navigation-icon arrow-left">Salir</a>
 </div>
 
 
 <div class="content">
-
-
-
-    
 	<div class="decoration in-content"></div>
     
         <div class="container">
@@ -64,20 +63,30 @@
               <form id="formulario">
                    {% csrf_token %}
                   <fieldset>
-                      <label for="gasto" class="etiqueta">Gastos</label>
+                      <br>
+                      <center>
+                      <label for="gasto" class="etiqueta">Cuantía<span class="red">*</span></label>
                       <input type="number" name="valor" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" />
-                      <label for="concepto" class="etiqueta">Concepto</label>
-                      <input type="text" name="concepto" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" />
-                     
-                      <label for="tipoactividad" class="etiqueta">Tipo de actividad <span class="red">*</span></label>
-                      <div id ="tipoactividad"></div>
+                      <label for="concepto" class="etiqueta">Concepto<span class="red">*</span></label>
+                      <input type="text" name="concepto" id="gasto" value="" tabindex="1" size="30" class="obligatorio text-input" /><br>
                       <label for="email" class="fecha">Fecha<span class="red">*</span></label>
-                      <input type="date" name="fecha" id="fecha" value="" tabindex="1" class="obligatorio text-input" placeholder="ejemplo:21/05/2014"/>
+                      <input type="date" name="fecha" id="fecha" value="" tabindex="1" size="30" class="obligatorio text-input" placeholder="ejemplo:21/05/2014"/>
+                      </center>
+                      <label for="tipoactividad" class="etiqueta">Tipo de actividad <span class="red">*</span></label>
+                      
+                      <div id ="tipoactividad"></div>
+                      <center>
+                      <table id="tabla_actividad">
+                          
+                      </table>
+                      </center>
+                      <br>
+                      <br>
                       <label for="recargoequivalencia" class="etiqueta">Recargo de Equivalencia</label>
                       <input type="checkbox" name="recargoequivalencia" id="casillaextra">
                       <p class="contact-button-house">
                      <!--     <input type="submit" name="submitMessage" class="full-screen-button contactButton button black" id="contactSubmitBtn" value="Send"/>-->
-                     <input type="button" value="Enviar" name="enviar" class="full-screen-button contactButton button black" id="contactSubmitBtn"  />
+                     <input type="button" value="Enviar" name="enviar" class="button black" id="contactSubmitBtn"  />
                       <div align="center" id="regionQR" style="display:none">
                           <img src ="" id="imagenQR" /><br>
                           <input type="button" name="descargar" value="Descargar QR">
@@ -93,7 +102,7 @@
 
 <div class="decoration"></div>
 
-<p class="center-text copyright">Copyright 2012. All rights reserved.</p>
+<p class="center-text copyright">Copyright &copy 2014 Cristina Zamora. All rights reserved.</p>
 
 
 </body>
